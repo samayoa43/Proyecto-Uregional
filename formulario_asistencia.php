@@ -3,7 +3,7 @@
 require 'curso_docentes.php';
 
  /*
-    tener cuidado con lo que tocan, agreguen diseño y colores, no tocar funciones encerradas con <?php; ?>, usen todos los documetos que tengan 
+    Tener cuidado con lo que tocan, agreguen diseño y colores, no tocar funciones encerradas con <?php; ?>, usen todos los documetos que tengan 
     <!DOCTYPE html>, los que empiezan por <?php no mover por favor BORRAR ESTE COMETARIO AL TERMINAR
   */
 ?>
@@ -17,24 +17,22 @@ require 'curso_docentes.php';
 <body>
 
     <h2>Control de Asistencia</h2>
-    <a href="index.php">home</a>
+    <a href="index.php">Home</a>
 
     <form action="" method="POST"> 
-        <label for="curso_seleccionado">Seleccione un curso:</label>
-        <select name="curso_seleccionado" id="curso_seleccionado" required>
+        <label for="asignacion_seleccionada">Seleccione una clase:</label>
+        <select name="asignacion_seleccionada" id="asignacion_seleccionada" required>
             <option value="">-- Elija una opción --</option>
             
-            <?php foreach ($cursos as $curso): ?>
-                <option value="<?= htmlspecialchars($curso['id_curso']) ?>" 
-                    <?= ($curso_seleccionado == $curso['id_curso']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($curso['nombre_curso']) ?>
+            <?php foreach ($cursos as $clase): // $cursos viene de tu require ?>
+                <option value="<?= htmlspecialchars($clase['id_asignacion']) ?>" 
+                    <?= ($asignacion_seleccionada == $clase['id_asignacion']) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($clase['nombre_curso']) ?>
                 </option>
             <?php endforeach; ?>
         </select>
         <button type="submit">Cargar Alumnos</button>
-    </form>
-
-    <hr>
+    </form> <hr>
 
     <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         
@@ -42,7 +40,8 @@ require 'curso_docentes.php';
             <h3>Listado de Alumnos</h3>
             
             <form action="procesar_asistencia.php" method="POST">
-                <input type="hidden" name="id_curso" value="<?= htmlspecialchars($curso_seleccionado) ?>">
+                
+                <input type="hidden" name="id_asignacion" value="<?= htmlspecialchars($asignacion_seleccionada) ?>">
                 
                 <table border="1">
                     <thead>
@@ -60,8 +59,8 @@ require 'curso_docentes.php';
                                 <td> 
                                     <select name="estado[<?= $alumno['id_estudiante'] ?>]" required>
                                         <option value="Asistente">Presente</option>
-                                        <option value="falta">Ausente</option>
-                                        <option value="Permiso">Permiso</option>
+                                        <option value="Falta">Ausente</option>
+                                        <option value="permiso">Permiso</option>
                                     </select>
                                 </td>
                             </tr>
@@ -69,15 +68,16 @@ require 'curso_docentes.php';
                     </tbody>
                 </table>
                 <br>
+                
                 <button type="submit">Guardar Asistencia del Día</button>
             </form>
 
         <?php else: ?>
-            <p>No hay alumnos inscritos en el curso seleccionado.</p>
+            <p>No hay alumnos inscritos en la clase seleccionada.</p>
         <?php endif; ?>
 
     <?php else: ?>
-        <p>Seleccione un curso arriba para comenzar a tomar asistencia.</p>
+        <p>Seleccione una clase arriba para comenzar a tomar asistencia.</p>
     <?php endif; ?>
 
 </body>

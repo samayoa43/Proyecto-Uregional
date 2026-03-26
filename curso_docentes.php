@@ -8,12 +8,11 @@ require 'conexion.php';
 $id_docente = $_SESSION['id_docente'] ?? null; 
 $cursos = [];
 $alumnos = [];
-$curso_seleccionado = null;
-
+$asignacion_seleccionada = null;
 
 if ($id_docente) {
     try {
-        $sql_cursos = "SELECT cursos.id_curso, cursos.nombre_curso 
+        $sql_cursos = "SELECT asignaciones_docentes.id_asignacion, cursos.nombre_curso 
                        FROM cursos
                        INNER JOIN asignaciones_docentes ON cursos.id_curso = asignaciones_docentes.id_curso 
                        WHERE asignaciones_docentes.id_docente = :id_docente";  
@@ -26,19 +25,19 @@ if ($id_docente) {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['asignacion_seleccionada'])) {
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['curso_seleccionado'])) {
-    
-    $curso_seleccionado = $_POST['curso_seleccionado'];
+    $asignacion_seleccionada = $_POST['asignacion_seleccionada'];
     
     try {
         $sql_alumnos = "SELECT e.id_estudiante, e.nombres, e.apellidos 
                         FROM estudiantes e
-                        INNER JOIN cursos c ON e.id_carrera = c.id_carrera
-                        WHERE c.id_curso = :id_curso";
+                        INNER JOIN asignaciones a ON e.id_estudiante = a.id_estudiante
+                        WHERE a.id_asignacion = :id_asignacion
+                        ORDER BY e.apellidos ASC"; 
                         
         $stmt_alumnos = $conexion->prepare($sql_alumnos);
-        $stmt_alumnos->execute(['id_curso' => $curso_seleccionado]);
+        $stmt_alumnos->execute(['id_asignacion' => $asignacion_seleccionada]);
         $alumnos = $stmt_alumnos->fetchAll(PDO::FETCH_ASSOC);
         
     } catch (PDOException $e) {

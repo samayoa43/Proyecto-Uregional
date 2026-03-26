@@ -34,9 +34,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['curso_seleccionado'])
     try {
 
         $sql = "SELECT e.id_estudiante, e.nombres, e.apellidos, 
-                       c.nota as u1, c.nota2 as u2, c.nota3 as u3, c.nota_final as nota_final
-                FROM estudiantes e 
-                LEFT JOIN calificaciones c ON e.id_estudiante = c.id_estudiante AND c.id_curso = :id_curso";
+       c.nota as u1, c.nota2 as u2, c.nota3 as u3, c.nota_final as nota_final
+FROM estudiantes e 
+INNER JOIN asignaciones a 
+    ON e.id_estudiante = a.id_estudiante
+INNER JOIN asignaciones_docentes ad 
+    ON a.id_asignacion = ad.id_asignacion
+LEFT JOIN calificaciones c 
+    ON e.id_estudiante = c.id_estudiante 
+    AND c.id_curso = :id_curso
+WHERE ad.id_curso = :id_curso
+ORDER BY e.apellidos ASC;";
                         
         $stmt_alumnos = $conexion->prepare($sql);
         $stmt_alumnos->execute(['id_curso' => $curso_seleccionado]);

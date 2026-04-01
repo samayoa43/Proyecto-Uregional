@@ -17,7 +17,9 @@ require 'curso_docentes.php';
 <body>
 
     <h2>Control de Asistencia</h2>
-    <a href="index.php">Home</a>
+    <?php
+        require 'encabezado.php';
+    ?>
 
     <form action="" method="POST"> 
         <label for="asignacion_seleccionada">Seleccione una clase:</label>

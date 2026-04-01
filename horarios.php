@@ -14,6 +14,9 @@ mismas instrucciones
 
 </head>
 <body>
+        <?php
+        require 'encabezado.php';
+    ?>
 
 <div class="contenedor">
     <h2>Mi Horario de Clases</h2>

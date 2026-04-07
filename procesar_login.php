@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if($docente) {
                     $_SESSION['id_docente'] = $docente['id_docente'];
                 }
-                header("Location: docentes.php/inicio_profesor.php");
+                header("Location: docentes.php/inicio_docente.php");
                 
             } elseif ($usuario['nombre_rol'] === 'estudiante') {
                 

@@ -1,4 +1,6 @@
 <?php
+
+require 'conexion.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -18,6 +20,25 @@ if ($_SESSION['rol'] !== 'estudiante') {
 
 $nombre_alumno = $_SESSION['nombre_usuario'];
 $id_estudiante = $_SESSION['id_estudiante']; 
+
+// 4. EXTRAER LOS ANUNCIOS PARA EL ESTUDIANTE
+$lista_anuncios = [];
+try {
+    // Buscamos anuncios dirigidos a 'Todos' o a 'Estudiantes', ordenados por los más recientes
+    $sql_anuncios = "SELECT a.titulo, a.mensaje, a.fecha_publicacion, u.nombre AS autor 
+                     FROM anuncios a
+                     INNER JOIN usuarios u ON a.id_autor = u.id_usuario
+                     WHERE a.audiencia IN ('Todos', 'Estudiantes') 
+                     ORDER BY a.fecha_publicacion DESC 
+                     LIMIT 5"; // Mostramos solo los últimos 5 avisos
+    
+    $stmt_anuncios = $conexion->prepare($sql_anuncios);
+    $stmt_anuncios->execute();
+    $lista_anuncios = $stmt_anuncios->fetchAll(PDO::FETCH_ASSOC);
+
+} catch(PDOException $e) {
+    echo "Error al cargar los anuncios: " . $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +75,27 @@ $id_estudiante = $_SESSION['id_estudiante'];
             </p>
         </div>
     </div>
+    <div class="tarjeta" style="border-top: 4px solid #ff9800;">
+    <h3 style="color: #ff9800; margin-top: 0;">Tablón de Anuncios</h3>
+    
+    <?php if (count($lista_anuncios) > 0): ?>
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+            <?php foreach ($lista_anuncios as $anuncio): ?>
+                <div style="background-color: #fff9f0; padding: 15px; border-left: 4px solid #ffb74d; border-radius: 4px;">
+                    <h4 style="margin: 0 0 5px 0; color: #333;"><?= htmlspecialchars($anuncio['titulo']) ?></h4>
+                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #555;">
+                        <?= nl2br(htmlspecialchars($anuncio['mensaje'])) ?>
+                    </p>
+                    <small style="color: #888;">
+                        👤 Publicado por: <strong><?= htmlspecialchars($anuncio['autor']) ?></strong> el <?= date('d/m/Y g:i A', strtotime($anuncio['fecha_publicacion'])) ?>
+                    </small>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <p style="color: #666; font-style: italic;">No hay anuncios nuevos por el momento.</p>
+    <?php endif; ?>
+</div>
 
 </body>
 </html>

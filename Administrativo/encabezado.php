@@ -6,10 +6,17 @@
 </head>
 
         <nav>
-        <a href="index.php">Inicio</a>
+        <a href="inicio_admin.php">Inicio</a>
         <a href="acciones_docentes.php">Docentes</a>
-        <a href="carreras.php">Carreras</a>
-        <a href="formulario_cursos.php">cursos</a>
+        <a href="acciones_cursos.php">Carreras</a>
+        <a href="acciones_alumnos.php">Alumnos</a>
+        <a href="../anuncios.php">anuncios</a>
+        <a href="gestion_u.php">Gestión de Usuarios</a>
+        <a href="reportes.php">Reportes</a>
+        <a href="gestion_tickets.php">Soporte</a>
+
+
+
         </nav>
     
     

@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
 
-    if ($_SESSION['rol'] === 'docente') header("Location: docentes.php/inicio_docente.php");
+    if ($_SESSION['rol'] === 'docente') header("Location: docentes/inicio_docente.php");
     elseif ($_SESSION['rol'] === 'estudiante') header("Location: index.php");
     elseif ($_SESSION['rol'] === 'admin') header("Location: administrativo/inicio_admin.php");
     exit();

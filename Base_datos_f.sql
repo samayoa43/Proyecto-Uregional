@@ -37,6 +37,27 @@ INSERT INTO `administrativo` (`id_personal`, `nombres`, `apellidos`, `correo`, `
 	(1, 'juan', 'admin', 'juanadmin@gmail.com', '1234567', 70),
 	(7, 'Stevan ', 'Universidad ', 'StevanU@gmail.com', '1234567', 71);
 
+-- Volcando estructura para tabla proyecto.anuncios
+CREATE TABLE IF NOT EXISTS `anuncios` (
+  `id_anuncio` int NOT NULL AUTO_INCREMENT,
+  `id_autor` int NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  `mensaje` text NOT NULL,
+  `audiencia` enum('Todos','Docentes','Estudiantes','Curso_Especifico') NOT NULL,
+  `id_curso_destino` int DEFAULT NULL,
+  `fecha_publicacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_anuncio`),
+  KEY `id_autor` (`id_autor`),
+  KEY `id_curso_destino` (`id_curso_destino`),
+  CONSTRAINT `anuncios_ibfk_1` FOREIGN KEY (`id_autor`) REFERENCES `usuarios` (`id_usuario`),
+  CONSTRAINT `anuncios_ibfk_2` FOREIGN KEY (`id_curso_destino`) REFERENCES `cursos` (`id_curso`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Volcando datos para la tabla proyecto.anuncios: ~2 rows (aproximadamente)
+INSERT INTO `anuncios` (`id_anuncio`, `id_autor`, `titulo`, `mensaje`, `audiencia`, `id_curso_destino`, `fecha_publicacion`) VALUES
+	(1, 70, 'Descanso de Semana Santa', 'Reciban un cordial saludo, se les informa que por semana santa se suspenden las clases', 'Estudiantes', NULL, '2026-04-04 00:51:13'),
+	(2, 70, 'Preparación de exámenes', 'Se les notifica a todos los docentes, que para el próximo sábado los exámenes parciales deberán estar listos y revisados por la coordinación', 'Docentes', NULL, '2026-04-06 18:12:38');
+
 -- Volcando estructura para tabla proyecto.asignaciones
 CREATE TABLE IF NOT EXISTS `asignaciones` (
   `id_asignacion_a` int NOT NULL AUTO_INCREMENT,
@@ -64,13 +85,14 @@ CREATE TABLE IF NOT EXISTS `asignaciones_docentes` (
   KEY `id_curso` (`id_curso`),
   CONSTRAINT `asignaciones_docentes_ibfk_1` FOREIGN KEY (`id_docente`) REFERENCES `docentes` (`id_docente`),
   CONSTRAINT `asignaciones_docentes_ibfk_2` FOREIGN KEY (`id_curso`) REFERENCES `cursos` (`id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto.asignaciones_docentes: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto.asignaciones_docentes: ~4 rows (aproximadamente)
 INSERT INTO `asignaciones_docentes` (`id_asignacion`, `id_docente`, `id_curso`) VALUES
 	(5, 2, 2),
 	(6, 3, 11),
-	(7, 2, 10);
+	(7, 2, 10),
+	(8, 4, 7);
 
 -- Volcando estructura para tabla proyecto.asistencia
 CREATE TABLE IF NOT EXISTS `asistencia` (
@@ -215,21 +237,35 @@ CREATE TABLE IF NOT EXISTS `carreras` (
   `id_carrera` int NOT NULL AUTO_INCREMENT,
   `nombre_carrera` varchar(100) NOT NULL,
   PRIMARY KEY (`id_carrera`)
-) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto.carreras: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto.carreras: ~3 rows (aproximadamente)
 INSERT INTO `carreras` (`id_carrera`, `nombre_carrera`) VALUES
 	(203, 'Administracion de Sistemas Informaticos'),
-	(204, 'Administración de Empresas');
+	(204, 'Administración de Empresas'),
+	(205, 'Trabajo Social');
+
+-- Volcando estructura para tabla proyecto.ciclos_academicos
+CREATE TABLE IF NOT EXISTS `ciclos_academicos` (
+  `id_ciclo` int NOT NULL AUTO_INCREMENT,
+  `nombre_ciclo` varchar(50) NOT NULL,
+  `estado` enum('Activo','Cerrado') DEFAULT 'Activo',
+  `asignaciones_abiertas` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id_ciclo`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Volcando datos para la tabla proyecto.ciclos_academicos: ~1 rows (aproximadamente)
+INSERT INTO `ciclos_academicos` (`id_ciclo`, `nombre_ciclo`, `estado`, `asignaciones_abiertas`) VALUES
+	(1, 'Primer Semestre 2026', 'Activo', 0);
 
 -- Volcando estructura para tabla proyecto.cursos
 CREATE TABLE IF NOT EXISTS `cursos` (
   `id_curso` int NOT NULL AUTO_INCREMENT,
   `nombre_curso` varchar(100) NOT NULL,
   PRIMARY KEY (`id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto.cursos: ~22 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto.cursos: ~23 rows (aproximadamente)
 INSERT INTO `cursos` (`id_curso`, `nombre_curso`) VALUES
 	(1, 'proyecto'),
 	(2, 'Inteligencia Artificial'),
@@ -252,7 +288,8 @@ INSERT INTO `cursos` (`id_curso`, `nombre_curso`) VALUES
 	(19, 'Procesos y Algoritmos I'),
 	(20, 'Desarrollo Web'),
 	(24, 'Seminario de tesis'),
-	(25, 'Seminario de Administración');
+	(25, 'Seminario de Administración'),
+	(26, 'Contabilidad I');
 
 -- Volcando estructura para tabla proyecto.docentes
 CREATE TABLE IF NOT EXISTS `docentes` (
@@ -265,12 +302,13 @@ CREATE TABLE IF NOT EXISTS `docentes` (
   PRIMARY KEY (`id_docente`),
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `docentes_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto.docentes: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto.docentes: ~3 rows (aproximadamente)
 INSERT INTO `docentes` (`id_docente`, `nombres`, `apellidos`, `correo`, `contraseña`, `id_usuario`) VALUES
 	(2, 'pedro', 'simil', 'pedrosimi@gmail.com', '1234567', 67),
-	(3, 'Mago de', 'Oz', 'magazoU@gmail.com', '1234567', 68);
+	(3, 'Mago de', 'Oz', 'magazoU@gmail.com', '1234567', 68),
+	(4, 'Steven', 'Silvamilion', 'SilvaSteve@gmail.com', '1234567', 73);
 
 -- Volcando estructura para tabla proyecto.estudiantes
 CREATE TABLE IF NOT EXISTS `estudiantes` (
@@ -286,9 +324,9 @@ CREATE TABLE IF NOT EXISTS `estudiantes` (
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `estudiantes_ibfk_1` FOREIGN KEY (`id_carrera`) REFERENCES `carreras` (`id_carrera`),
   CONSTRAINT `estudiantes_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto.estudiantes: ~33 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto.estudiantes: ~35 rows (aproximadamente)
 INSERT INTO `estudiantes` (`id_estudiante`, `nombres`, `apellidos`, `contraseña`, `id_carrera`, `correo`, `id_usuario`) VALUES
 	(1, 'juan', 'Ejemplo', '123456789', 203, 'ejemplocorreo@gmail.com', 4),
 	(2, 'Cesar', 'Silvamilion', 'jksjkdbjdsbjdbjasdbkjds', 203, 'Silvamilionsama@gmail.com', 5),
@@ -322,7 +360,9 @@ INSERT INTO `estudiantes` (`id_estudiante`, `nombres`, `apellidos`, `contraseña
 	(30, 'Marco Tulio', 'Arriola San', '$2y$10$d7QWERT9Y.U', 203, 'marco.arriola@example.com', 33),
 	(31, 'Heidy Rossana', 'Lemus Paiz', '$2y$10$s8DFGHJ1K.L', 203, 'heidy.lemus@example.com', 34),
 	(32, 'Oscar Rene', 'Barrientos', '$2y$10$a9ZXCVB2N.M', 203, 'oscar.barrientos@example.com', 35),
-	(33, 'Nataly Sofía', 'Duarte Mend', '$2y$10$z0RTYUI3O.P', 203, 'nataly.duarte@example.com', 36);
+	(33, 'Nataly Sofía', 'Duarte Mend', '$2y$10$z0RTYUI3O.P', 203, 'nataly.duarte@example.com', 36),
+	(34, 'Rony', 'ejemplo', '1234567', 204, 'EjemploRony@gmail.com', 74),
+	(35, 'Claudia', 'Silva', '1234567', 203, 'SilvaClau@hotmail.com', 75);
 
 -- Volcando estructura para tabla proyecto.horarios
 CREATE TABLE IF NOT EXISTS `horarios` (
@@ -334,12 +374,34 @@ CREATE TABLE IF NOT EXISTS `horarios` (
   PRIMARY KEY (`id_horario`),
   KEY `id_asignacion` (`id_asignacion`),
   CONSTRAINT `horarios_ibfk_1` FOREIGN KEY (`id_asignacion`) REFERENCES `asignaciones_docentes` (`id_asignacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto.horarios: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto.horarios: ~3 rows (aproximadamente)
 INSERT INTO `horarios` (`id_horario`, `id_asignacion`, `dia_semana`, `hora_inicio`, `hora_fin`) VALUES
 	(1, 5, 'Sábado', '08:00:00', '09:30:00'),
-	(2, 6, 'Sábado', '10:00:00', '11:30:00');
+	(2, 6, 'Sábado', '10:00:00', '11:30:00'),
+	(3, 8, 'Sábado', '11:30:00', '13:00:00');
+
+-- Volcando estructura para tabla proyecto.pagos
+CREATE TABLE IF NOT EXISTS `pagos` (
+  `id_pago` int NOT NULL AUTO_INCREMENT,
+  `id_estudiante` int NOT NULL,
+  `mes_pagado` enum('Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre') NOT NULL,
+  `monto` decimal(10,2) NOT NULL,
+  `fecha_pago` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `numero_boleta` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_pago`),
+  UNIQUE KEY `único_pago_mes` (`id_estudiante`,`mes_pagado`),
+  CONSTRAINT `fk_pago_estudiante` FOREIGN KEY (`id_estudiante`) REFERENCES `estudiantes` (`id_estudiante`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Volcando datos para la tabla proyecto.pagos: ~5 rows (aproximadamente)
+INSERT INTO `pagos` (`id_pago`, `id_estudiante`, `mes_pagado`, `monto`, `fecha_pago`, `numero_boleta`) VALUES
+	(1, 1, 'Marzo', 500.00, '2026-04-03 23:22:41', 'BOL-998877'),
+	(5, 1, 'Febrero', 450.00, '2026-04-04 00:28:36', '1234'),
+	(6, 1, 'Abril', 450.00, '2026-04-04 00:28:36', '1234'),
+	(7, 1, 'Mayo', 450.00, '2026-04-04 00:28:36', '1234'),
+	(8, 1, 'Junio', 450.00, '2026-04-04 00:28:36', '1234');
 
 -- Volcando estructura para tabla proyecto.pensum
 CREATE TABLE IF NOT EXISTS `pensum` (
@@ -352,13 +414,29 @@ CREATE TABLE IF NOT EXISTS `pensum` (
   KEY `id_curso` (`id_curso`),
   CONSTRAINT `pensum_ibfk_1` FOREIGN KEY (`id_carrera`) REFERENCES `carreras` (`id_carrera`),
   CONSTRAINT `pensum_ibfk_2` FOREIGN KEY (`id_curso`) REFERENCES `cursos` (`id_curso`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto.pensum: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto.pensum: ~5 rows (aproximadamente)
 INSERT INTO `pensum` (`id_pensum`, `id_carrera`, `id_curso`, `semestre`) VALUES
-	(1, 203, 20, NULL),
-	(2, 203, 24, NULL),
-	(3, 203, 25, 9);
+	(1, 203, 20, 1),
+	(2, 203, 24, 1),
+	(3, 203, 25, 9),
+	(4, 203, 3, 1),
+	(5, 203, 26, 1);
+
+-- Volcando estructura para tabla proyecto.prerrequisitos
+CREATE TABLE IF NOT EXISTS `prerrequisitos` (
+  `id_curso` int NOT NULL,
+  `id_curso_previo` int NOT NULL,
+  PRIMARY KEY (`id_curso`,`id_curso_previo`),
+  KEY `fk_curso_requerido` (`id_curso_previo`),
+  CONSTRAINT `fk_curso_actual` FOREIGN KEY (`id_curso`) REFERENCES `cursos` (`id_curso`) ON DELETE CASCADE,
+  CONSTRAINT `fk_curso_requerido` FOREIGN KEY (`id_curso_previo`) REFERENCES `cursos` (`id_curso`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Volcando datos para la tabla proyecto.prerrequisitos: ~1 rows (aproximadamente)
+INSERT INTO `prerrequisitos` (`id_curso`, `id_curso_previo`) VALUES
+	(24, 25);
 
 -- Volcando estructura para tabla proyecto.roles
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -373,6 +451,24 @@ INSERT INTO `roles` (`id_rol`, `nombre_rol`) VALUES
 	(2, 'docente'),
 	(3, 'estudiante');
 
+-- Volcando estructura para tabla proyecto.tickets_soporte
+CREATE TABLE IF NOT EXISTS `tickets_soporte` (
+  `id_ticket` int NOT NULL AUTO_INCREMENT,
+  `id_usuario` int NOT NULL,
+  `asunto` varchar(150) NOT NULL,
+  `descripcion` text NOT NULL,
+  `prioridad` enum('Baja','Media','Alta','Urgente') DEFAULT 'Media',
+  `estado` enum('Abierto','En Proceso','Resuelto') DEFAULT 'Abierto',
+  `fecha_creacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_ticket`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `tickets_soporte_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Volcando datos para la tabla proyecto.tickets_soporte: ~1 rows (aproximadamente)
+INSERT INTO `tickets_soporte` (`id_ticket`, `id_usuario`, `asunto`, `descripcion`, `prioridad`, `estado`, `fecha_creacion`) VALUES
+	(1, 67, 'Error al cargar mis listados de alumnos', 'no me deja cargar los listados de alumnos, lo que no me permite pasar asistencias', 'Media', 'Resuelto', '2026-04-07 03:35:36');
+
 -- Volcando estructura para tabla proyecto.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id_usuario` int NOT NULL AUTO_INCREMENT,
@@ -382,9 +478,9 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `estado` tinyint DEFAULT '1',
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `correo` (`correo`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto.usuarios: ~37 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto.usuarios: ~40 rows (aproximadamente)
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `correo`, `contraseña`, `estado`) VALUES
 	(4, 'juan Ejemplo', 'ejemplocorreo@gmail.com', '123456789', 1),
 	(5, 'Cesar Silvamilion', 'Silvamilionsama@gmail.com', 'jksjkdbjdsbjdbjasdbkjds', 1),
@@ -422,7 +518,10 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `correo`, `contraseña`, `estado
 	(67, 'pedro simil', 'pedrosimi@gmail.com', '1234567', 1),
 	(68, 'Mago de Oz', 'magazoU@gmail.com', '1234567', 1),
 	(70, 'juan admin', 'juanadmin@gmail.com', '1234567', 1),
-	(71, 'Stevan  Universidad ', 'StevanU@gmail.com', '1234567', 1);
+	(71, 'Stevan  Universidad ', 'StevanU@gmail.com', '1234567', 1),
+	(73, 'Steven Silvamilion', 'SilvaSteve@gmail.com', '1234567', 1),
+	(74, 'Rony ejemplo', 'EjemploRony@gmail.com', '1234567', 1),
+	(75, 'Claudia Silva', 'SilvaClau@hotmail.com', '1234567', 1);
 
 -- Volcando estructura para tabla proyecto.usuario_roles
 CREATE TABLE IF NOT EXISTS `usuario_roles` (
@@ -434,12 +533,13 @@ CREATE TABLE IF NOT EXISTS `usuario_roles` (
   CONSTRAINT `usuario_roles_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla proyecto.usuario_roles: ~37 rows (aproximadamente)
+-- Volcando datos para la tabla proyecto.usuario_roles: ~40 rows (aproximadamente)
 INSERT INTO `usuario_roles` (`id_usuario`, `id_rol`) VALUES
 	(70, 1),
 	(71, 1),
 	(67, 2),
 	(68, 2),
+	(73, 2),
 	(4, 3),
 	(5, 3),
 	(6, 3),
@@ -472,7 +572,9 @@ INSERT INTO `usuario_roles` (`id_usuario`, `id_rol`) VALUES
 	(33, 3),
 	(34, 3),
 	(35, 3),
-	(36, 3);
+	(36, 3),
+	(74, 3),
+	(75, 3);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

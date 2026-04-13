@@ -1,0 +1,3 @@
+# Ignora la carpeta vendor generada por Composer (PHPMailer, etc.)
+/vendor/
+composer.phar

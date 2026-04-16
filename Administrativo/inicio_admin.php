@@ -24,9 +24,10 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
 <head>
     <meta charset="UTF-8">
     <title>Plataforma Académica</title>
-  
+    <link rel="stylesheet" href="../estilos.css">
 </head>
 <body>
+    
     <h1>Portal Académico</h1>
     <h2>Bienvenido: <?php echo htmlspecialchars($nombre); ?>!</strong></h2>
 
@@ -40,7 +41,6 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
     </div>
 
 <h2 style="margin-bottom: 5px;">Panel de Inteligencia Estratégica</h2>
-    <p style="color: #666; margin-top: 0;">Indicadores clave de rendimiento (KPIs) en tiempo real.</p>
 
     <?php if(isset($error_bd)) echo "<p style='color:red;'>$error_bd</p>"; ?>
 

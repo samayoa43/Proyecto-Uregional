@@ -14,8 +14,7 @@
         <a href="gestion_u.php">Gestión de Usuarios</a>
         <a href="reportes.php">Reportes</a>
         <a href="gestion_tickets.php">Soporte</a>
-
-
+        <a href="crear_encuestas.php">Crear Encuesta</a>
 
         </nav>
     

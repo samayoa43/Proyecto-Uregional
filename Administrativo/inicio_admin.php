@@ -24,64 +24,50 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
 <head>
     <meta charset="UTF-8">
     <title>Plataforma Académica</title>
-    <link rel="stylesheet" href="../estilos.css">
+    <link rel="stylesheet" href="estilo_administrativo.css">
 </head>
 <body>
     
-    <h1>Portal Académico</h1>
-    <h2>Bienvenido: <?php echo htmlspecialchars($nombre); ?>!</strong></h2>
+    <header class="top-navbar">
+        <div class="nav-left">
+            <button class="hamburger-btn" id="menuToggle" aria-label="Abrir menú">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="white">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </button>
+            
+            <div class="brand-title">
+                <h1>Portal Académico</h1>
+                <p>Universidad Regional</p>
+            </div>
+        </div>
 
-        <nav>
-        <?php
-        require 'encabezado.php';
-        ?>
-        </nav>
-            <div class="navbar">
-        <a href="../logout.php" class="btn-salir">Cerrar Sesión</a>
-    </div>
+        <div class="nav-right">
+            <span class="user-greeting">Bienvenido, <strong><?php echo htmlspecialchars($nombre); ?></strong></span>
+            <a href="../logout.php" class="btn-logout">Cerrar Sesión</a>
+        </div>
+    </header>
 
-<h2 style="margin-bottom: 5px;">Panel de Inteligencia Estratégica</h2>
+    <nav class="side-menu" id="sideMenu">
+        <div class="menu-content">
+            <?php require 'encabezado.php'; ?>
+        </div>
+    </nav>
 
-    <?php if(isset($error_bd)) echo "<p style='color:red;'>$error_bd</p>"; ?>
-
-    <div class="dashboard-grid">
+    <main class="main-container">
+        <h2 class="section-title">Panel de Inteligencia Estratégica</h2>
         
-        <div class="kpi-card prioridad-muy-alta">
-            <h3 class="kpi-title">Finanzas (Mes: <?= $mes_actual ?>)</h3>
-            <p class="kpi-value text-danger"><?= $kpi_morosos ?></p>
-            <p class="kpi-desc">Alumnos con <strong>riesgo de morosidad</strong>.</p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-            <p class="kpi-desc">Pagos al día: <span class="text-success"><?= $kpi_alumnos_al_dia ?> estudiantes</span></p>
-        </div>
-
-        <div class="kpi-card prioridad-alta">
-            <h3 class="kpi-title">Estudiantes (Retención)</h3>
-            <p class="kpi-value"><?= $kpi_estudiantes_activos ?></p>
-            <p class="kpi-desc">Alumnos activos en el sistema.</p>
-            <p class="kpi-desc" style="margin-top: 10px; color: #ff9800;"><em></em></p>
-        </div>
-
-        <div class="kpi-card prioridad-alta">
-            <h3 class="kpi-title">Cursos (Saturación)</h3>
-            <p class="kpi-value"><?= $kpi_saturacion ?> <span style="font-size: 16px; color: #888;">alumnos/clase</span></p>
-            <p class="kpi-desc">Promedio de estudiantes por sección abierta.</p>
-        </div>
-
-        <div class="kpi-card prioridad-media">
-            <h3 class="kpi-title">Docentes (Carga)</h3>
-            <p class="kpi-value"><?= $kpi_carga_docente ?> <span style="font-size: 16px; color: #888;">clases/docente</span></p>
-            <p class="kpi-desc">Promedio de carga laboral asignada.</p>
-            <p class="kpi-desc" style="margin-top: 10px; color: #17a2b8;"><em>* Desempeño: Pendiente de módulo de encuestas.</em></p>
-        </div>
-
-        <div class="kpi-card prioridad-media">
-            <h3 class="kpi-title">Operación (Tickets)</h3>
-            <p class="kpi-value text-danger"><?= $kpi_tickets_activos ?></p>
-            <p class="kpi-desc">Solicitudes pendientes de atención.</p>
-            <p class="kpi-desc" style="margin-top: 10px;"><a href="gestion_tickets.php" style="color: #17a2b8; text-decoration: none;">Ver panel de soporte ➔</a></p>
-        </div>
-
-    </div>
-
-</body>
 </html>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const sideMenu = document.getElementById('sideMenu');
+
+            menuToggle.addEventListener('click', function() {
+                // Alterna la clase 'active' para abrir o cerrar el menú
+                sideMenu.classList.toggle('active');
+            });
+        });
+    </script>
+</body>

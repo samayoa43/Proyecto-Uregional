@@ -8,86 +8,116 @@ if (session_status() === PHP_SESSION_NONE) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Ciclos Académicos</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ciclos Académicos - Plataforma Académica</title>
+    <link rel="stylesheet" href="estilo_administrativo.css?v=<?php echo time(); ?>">
 </head>
 <body>
-        <?php
-        require 'encabezado.php';
-        ?>
 
-<div class="contenedor">
-    <h2 style="color: #333; border-bottom: 2px solid #ccc; padding-bottom: 10px;">Control de Ciclos Académicos</h2>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
 
-    <?php if($mensaje_exito) echo "<div class='alerta-exito'>$mensaje_exito</div>"; ?>
-    <?php if($mensaje_error) echo "<div class='alerta-error'>$mensaje_error</div>"; ?>
+    <?php 
+    $ruta_base = "../";
+    require 'encabezado.php'; ?>
 
-    <div class="caja" style="border-top: 4px solid #0056b3;">
-        <h3 style="margin-top:0; color:#0056b3;">Aperturar Nuevo Semestre</h3>
-        <form action="" method="POST">
-            <label class="etiqueta">Nombre del Ciclo:</label>
-            <input type="text" name="nombre_ciclo" placeholder="Ej. Primer Semestre 2026" required>
-            <button type="submit" name="crear_ciclo" class="btn-crear">Crear Ciclo Académico</button>
-        </form>
-    </div>
-
-    <div class="caja">
-        <h3 style="margin-top:0; color:#333;">Historial de Ciclos</h3>
+    <main class="main-container">
         
-        <?php if (count($lista_ciclos) > 0): ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Ciclo Académico</th>
-                        <th>Estado del Semestre</th>
-                        <th>Periodo de Asignaciones</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($lista_ciclos as $ciclo): ?>
-                        <tr>
-                            <td><?= $ciclo['id_ciclo'] ?></td>
-                            <td><strong><?= htmlspecialchars($ciclo['nombre_ciclo']) ?></strong></td>
-                            
-                            <td>
-                                <?php if($ciclo['estado'] == 'Activo'): ?>
-                                    <span class="estado-activo">Activo</span>
-                                <?php else: ?>
-                                    <span class="estado-cerrado">Cerrado</span>
-                                <?php endif; ?>
-                            </td>
+        <div class="section-header">
+            <h2>Control de Ciclos Académicos</h2>
+            <p>Apertura nuevos semestres y controla los periodos de asignación para los estudiantes.</p>
+        </div>
 
-                            <td>
-                                <?php if($ciclo['estado'] == 'Activo'): ?>
-                                    <?php if($ciclo['asignaciones_abiertas'] == 1): ?>
-                                        <a href="?accion=toggle_asignacion&id=<?= $ciclo['id_ciclo'] ?>&estado_actual=1" class="btn-switch-on">ABIERTAS (Click para cerrar)</a>
-                                    <?php else: ?>
-                                        <a href="?accion=toggle_asignacion&id=<?= $ciclo['id_ciclo'] ?>&estado_actual=0" class="btn-switch-off">CERRADAS (Click para abrir)</a>
-                                    <?php endif; ?>
-                                <?php else: ?>
-                                    <span style="color: #888; font-size: 13px;">No disponible (Semestre cerrado)</span>
-                                <?php endif; ?>
-                            </td>
-
-                            <td>
-                                <?php if($ciclo['estado'] == 'Activo'): ?>
-                                    <a href="?accion=cerrar_ciclo&id=<?= $ciclo['id_ciclo'] ?>" class="btn-cerrar-ciclo" onclick="return confirm('¿Estás seguro de cerrar este semestre? Las notas quedarán congeladas y no se podrá reabrir.');">Terminar Semestre</a>
-                                <?php else: ?>
-                                    <span style="color: #aaa;">Sin acciones</span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p style="color: #666; text-align: center;">No hay ciclos registrados. Crea el primer semestre arriba.</p>
+        <?php if(!empty($mensaje_exito)): ?>
+            <div class='alerta alerta-exito'><?= $mensaje_exito ?></div>
         <?php endif; ?>
-    </div>
+        <?php if(!empty($mensaje_error)): ?>
+            <div class='alerta alerta-error'><?= $mensaje_error ?></div>
+        <?php endif; ?>
 
-</div>
+        <div class="kpi-card form-card" style="margin-bottom: 30px;">
+            <h3 style="margin-top:0; color:#0078d4; margin-bottom: 15px;">Aperturar Nuevo Semestre</h3>
 
+            <form action="" method="POST" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+                
+                <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                    <label class="form-label">Nombre del Ciclo:</label>
+                    <input type="text" name="nombre_ciclo" class="form-input" placeholder="Ej. Primer Semestre <?= date('Y') ?>" required>
+                </div>
+                
+                <div>
+                    <button type="submit" name="crear_ciclo" class="btn-primario">Crear Ciclo Académico</button>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="kpi-card" style="width: 100%; overflow-x: auto; padding: 25px; box-sizing: border-box;">
+            <h3 style="margin-top:0; color:#334155; margin-bottom: 20px;">Historial de Ciclos</h3>
+            
+            <?php if (count($lista_ciclos) > 0): ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">ID</th>
+                            <th>Ciclo Académico</th>
+                            <th style="width: 150px;">Estado Semestre</th>
+                            <th style="width: 220px;">Periodo de Asignaciones</th>
+                            <th style="width: 150px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($lista_ciclos as $ciclo): ?>
+                            <tr>
+                                <td><?= $ciclo['id_ciclo'] ?></td>
+                                <td><strong><?= htmlspecialchars($ciclo['nombre_ciclo']) ?></strong></td>
+                                
+                                <td>
+                                    <?php if($ciclo['estado'] == 'Activo'): ?>
+                                        <span class="badge activo">En Curso</span>
+                                    <?php else: ?>
+                                        <span class="badge inactivo">Cerrado</span>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td>
+                                    <?php if($ciclo['estado'] == 'Activo'): ?>
+                                        <?php if($ciclo['asignaciones_abiertas'] == 1): ?>
+                                            <a href="?accion=toggle_asignacion&id=<?= $ciclo['id_ciclo'] ?>&estado_actual=1" class="btn-switch on" title="Click para cerrar asignaciones">✅ ABIERTAS</a>
+                                        <?php else: ?>
+                                            <a href="?accion=toggle_asignacion&id=<?= $ciclo['id_ciclo'] ?>&estado_actual=0" class="btn-switch off" title="Click para abrir asignaciones">❌ CERRADAS</a>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <span class="texto-secundario">No disponible (Semestre cerrado)</span>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td>
+                                    <?php if($ciclo['estado'] == 'Activo'): ?>
+                                        <a href="?accion=cerrar_ciclo&id=<?= $ciclo['id_ciclo'] ?>" class="btn-peligro" onclick="return confirm('¿Estás seguro de cerrar este semestre? Las notas quedarán congeladas y no se podrá reabrir.');">Terminar Semestre</a>
+                                    <?php else: ?>
+                                        <span class="texto-secundario">Sin acciones</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <div class="reporte-vacio">
+                    <h3 style="color: #64748b;">Sin Historial</h3>
+                    <p>No hay ciclos registrados. Crea el primer semestre en el formulario de arriba.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+
+    </main>
+
+    <?php require 'footer.php'; ?>
+
+    <script src="script_admin.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

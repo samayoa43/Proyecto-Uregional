@@ -3,23 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Plataforma Académica</title>
+    <link rel="stylesheet" href="estilo_administrativo.css?v=<?php echo time(); ?>">
 </head>
-    <header> 
-         <h1>Portal Académico</h1>
-        <?php
-        require 'encabezado.php';
-        ?>
-    </header>
+<body>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
 
-    <div>
-        <a href="Formulario_registro_d.php">Ingresar Nuevos docentes</a> 
-    </div>
-    <div>
+<?php 
+$ruta_base = "../";
+require 'encabezado.php'; ?>
+
+    <main class="main-container" style="padding: 30px;">
+            <div class="section-header">
+                <h2>Gestión de Docentes</h2>
+                <p>Administra la información y asignaciones de los docentes</p>
+            </div>
+        <div class="container_links">
+            <a href="Formulario_registro_d.php">Ingresar Nuevos docentes</a> 
         <a href="Formulario_asignacion.php">Asignar Cursos</a> 
-    </div>
-        <div>
         <a href="horarios.php">Asignar Horarios</a> 
-    </div>
+        </div>
+    </main>
+
+        <?php require 'footer.php'; ?>
+    
+<script src="script_admin.js?v=<?php echo time(); ?>"></script>
     
 </body>
 </html>

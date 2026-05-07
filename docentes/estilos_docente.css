@@ -1,0 +1,287 @@
+/* =======================================================
+   ESTILO PRINCIPAL - MÓDULO DE DOCENTES
+   Tema: Admin Moderno (Claro) / VS Code Dark Modern (Oscuro)
+======================================================= */
+
+/* --- VARIABLES DE COLOR (MODO CLARO POR DEFECTO) --- */
+/* --- VARIABLES DE COLOR (MODO CLARO POR DEFECTO) --- */
+:root {
+    --color-fondo: #f1f5f9;
+    --color-tarjeta: #ffffff;
+    --color-texto: #334155;
+    --color-titulos: #0f172a;
+    
+    --color-primario: #159cb0; 
+    --color-primario-hover: #107c8d;
+    --color-acento: #eb622a; 
+    
+    --color-borde: #e2e8f0;
+    
+    /* ¡Corregido! Un azul corporativo un poco más claro y vivo */
+    --header-bg: #00407a; 
+    
+    --menu-bg: #ffffff;
+    --menu-hover: #f1f6f9;
+    --menu-texto: #002147;
+}
+
+/* --- VARIABLES MODO OSCURO (VS CODE DARK MODERN) --- */
+body.dark-mode {
+    --color-fondo: #1f1f1f; 
+    --color-tarjeta: #252526; 
+    --color-texto: #cccccc; 
+    --color-titulos: #ffffff; 
+    
+    --color-primario: #159cb0; 
+    --color-primario-hover: #22d3ee;
+    --color-acento: #eb622a; 
+    
+    --color-borde: #333333; 
+    
+    /* ¡Corregido! Mantenemos el azul en modo oscuro, adaptado para no lastimar la vista */
+    --header-bg: #003366; 
+    
+    --menu-bg: #181818; 
+    --menu-hover: #2a2d2e; 
+    --menu-texto: #cccccc;
+}
+
+/* =========================================
+   ESTILOS BASE
+========================================= */
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+}
+
+/* =========================================
+   BARRA SUPERIOR (HEADER)
+========================================= */
+.top-navbar {
+    background-color: var(--header-bg);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 70px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--color-borde); 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+.nav-left { display: flex; align-items: center; }
+.nav-right { display: flex; align-items: center; gap: 15px; }
+
+.logo-navbar {
+    height: 40px;
+    width: auto;
+    margin-left: 5px;
+    margin-right: 10px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); 
+}
+
+.brand-title h1 { margin: 0; font-size: 18px; font-weight: 600; }
+.brand-title p { margin: 0; font-size: 11px; opacity: 0.8; letter-spacing: 1px; }
+
+.hamburger-btn, .theme-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: white;
+}
+.theme-btn { font-size: 20px; }
+
+.btn-salir {
+    background-color: #ef4444;
+    color: white;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.btn-salir:hover { background-color: #dc2626; }
+
+/* =========================================
+   MENÚ LATERAL (ESTADO INICIAL OCULTO)
+========================================= */
+.side-menu {
+    background-color: var(--menu-bg);
+    width: 260px;
+    position: fixed;
+    top: 70px;
+    bottom: 0;
+    left: -280px; /* Oculto por defecto */
+    overflow-y: auto;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 900;
+    border-right: 1px solid var(--color-borde);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.03);
+}
+
+.side-menu.active {
+    left: 0 !important; /* Entra a la pantalla al dar clic */
+}
+
+.menu-content { 
+    padding: 20px 0; 
+}
+
+/* =========================================
+   ESTILO DE LOS ENLACES (EFECTO PÍLDORA)
+========================================= */
+.side-menu a {
+    display: block;
+    color: var(--menu-texto);
+    padding: 12px 20px;
+    margin: 5px 15px; /* Efecto píldora */
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600; 
+    border-radius: 6px; 
+    border-left: 3px solid transparent; 
+    transition: all 0.2s ease;
+}
+
+.side-menu a:hover, 
+.side-menu a.active {
+    background-color: var(--menu-hover);
+    color: var(--color-primario);
+    border-left: 3px solid var(--color-primario);
+}
+
+/* =========================================
+   CONTENEDOR PRINCIPAL
+========================================= */
+.main-container {
+    margin-left: 0; /* Usa todo el ancho por defecto */
+    margin-top: 70px;
+    padding: 30px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Empuja el contenido solo en computadoras si el menú está abierto */
+@media screen and (min-width: 769px) {
+    .main-container.menu-abierto {
+        margin-left: 260px;
+    }
+}
+
+.section-header { margin-bottom: 25px; }
+.section-header h2 { color: var(--color-titulos); margin: 0 0 5px 0; font-size: 24px; }
+.section-header p { color: var(--color-texto); margin: 0; opacity: 0.8; }
+
+.kpi-card {
+    background-color: var(--color-tarjeta);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    border: 1px solid var(--color-borde);
+    margin-bottom: 25px;
+}
+
+/* =========================================
+   FORMULARIOS Y BOTONES DOCENTES
+========================================= */
+.form-group { margin-bottom: 20px; }
+.form-label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--color-titulos); font-size: 14px; }
+
+.form-input, textarea.form-input, select.form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-borde);
+    border-radius: 4px;
+    background-color: var(--color-tarjeta);
+    color: var(--color-texto);
+    font-size: 14px;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primario);
+    box-shadow: 0 0 0 3px rgba(21, 156, 176, 0.2);
+}
+
+.form-acciones { display: flex; gap: 10px; margin-top: 25px; }
+
+.btn-primario {
+    background-color: var(--color-primario);
+    color: #ffffff !important;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.2s;
+}
+.btn-primario:hover { background-color: var(--color-primario-hover); }
+
+.btn-secundario {
+    background-color: transparent;
+    color: var(--color-texto);
+    border: 1px solid var(--color-borde);
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-secundario:hover { background-color: var(--color-borde); }
+
+/* =========================================
+   TABLAS (PARA NOTAS Y ASISTENCIA)
+========================================= */
+table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--color-borde); }
+th { background-color: rgba(0,0,0,0.02); font-weight: 600; color: var(--color-titulos); }
+
+body.dark-mode th { background-color: rgba(255,255,255,0.02); }
+
+/* =========================================
+   TABLÓN DE ANUNCIOS
+========================================= */
+.lista-anuncios { display: flex; flex-direction: column; gap: 15px; }
+
+.anuncio-item {
+    background-color: #fffaf5; 
+    padding: 15px 20px;
+    border-left: 4px solid var(--color-acento); 
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.anuncio-item h4 { margin: 0 0 8px 0; color: var(--color-acento); font-size: 16px; }
+.anuncio-item p { margin: 0 0 12px 0; font-size: 14px; color: var(--color-texto); line-height: 1.5; }
+.anuncio-item small { color: #64748b; font-size: 12px; }
+
+body.dark-mode .anuncio-item {
+    background-color: rgba(235, 98, 42, 0.1);
+}
+body.dark-mode .anuncio-item h4 { color: var(--color-acento); }
+
+/* =========================================
+   RESPONSIVO (CELULARES)
+========================================= */
+@media screen and (max-width: 768px) {
+    .main-container.menu-abierto { margin-left: 0; }
+    .main-container { padding: 15px; }
+    .nav-right .user-greeting { display: none; }
+}

@@ -1,0 +1,171 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Cambiamos el degradado por un color sólido claro y profesional */
+    background-color: #f4f7f9; 
+    min-height: 100vh;
+
+    
+    /* Flexbox para centrar la caja de login en la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.caja-login {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 400px; /* Ancho máximo para que no se estire mucho */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Sombra elegante */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.caja-login h2 {
+    color: #0a2342;
+    margin: 0 0 10px 0;
+    font-size: 26px;
+    letter-spacing: 0.5px;
+}
+
+.subtitulo {
+    color: #888;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.mensaje-error {
+    background-color: #fde8e8;
+    color: #c53030;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border: 1px solid #fbcfe8;
+    text-align: left;
+    font-weight: 500;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.etiqueta {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Estilo para los inputs de texto y contraseña */
+input[type="text"],
+input[type="password"] {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #dce4ec;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #333;
+    background-color: #f9fbfc;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Efecto cuando el usuario hace clic para escribir */
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #17a2b8;
+    background-color: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.15);
+}
+
+.btn-ingresar {
+    background-color: #0a2342; /* Azul oscuro institucional */
+    color: #ffffff;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
+}
+
+/* Efecto al pasar el mouse por encima */
+.btn-ingresar:hover {
+    background-color: #17a2b8; /* Cambia a celeste */
+    transform: translateY(-2px); /* Se levanta un poquito */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================
+   MODO OSCURO VS CODE (LOGIN)
+========================================= */
+body.dark-mode {
+    background-color: #181818; /* Fondo principal Dark Modern */
+}
+
+body.dark-mode .caja-login {
+    background-color: #1f1f1f; /* Color de las tarjetas en VS Code */
+    border: 1px solid #2b2b2b; /* Borde sutil, típico de VS Code */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .caja-login h2 { color: #cccccc; }
+body.dark-mode .subtitulo { color: #8a8a8a; }
+body.dark-mode .etiqueta { color: #cccccc; font-weight: normal; }
+
+/* Campos de texto estilo VS Code */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="password"] {
+    background-color: #313131;
+    border: 1px solid #3c3c3c;
+    color: #cccccc;
+    border-radius: 4px; /* VS Code usa bordes menos redondeados */
+}
+
+body.dark-mode input[type="text"]:focus,
+body.dark-mode input[type="password"]:focus {
+    border-color: #0078d4; /* El azul icónico de VS Code */
+    background-color: #313131;
+    box-shadow: none; /* Quitamos el brillo, VS code es plano */
+}
+
+/* Botón estilo VS Code */
+body.dark-mode .btn-ingresar {
+    background-color: #0078d4;
+    border-radius: 4px;
+}
+
+body.dark-mode .btn-ingresar:hover {
+    background-color: #026ebd;
+    transform: none; /* Quitamos la animación de flotar, VS Code es más sobrio */
+}
+
+/* =========================================
+   DISEÑO RESPONSIVO PARA EL LOGIN (MÓVILES)
+========================================= */
+@media screen and (max-width: 480px) {
+    .caja-login {
+        padding: 25px; /* Reducimos el relleno interior */
+        margin: 20px; /* Evita que la caja toque los bordes del celular */
+        width: calc(100% - 40px); /* Se ajusta exactamente al ancho disponible */
+    }
+
+    .caja-login h2 {
+        font-size: 22px; /* Letra un poco más pequeña */
+    }
+
+    .btn-ingresar {
+        padding: 12px; /* Botón un poco más compacto */
+    }
+}

@@ -3,14 +3,14 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require 'funciones_dash.php'; 
+
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: ../login.php"); 
     exit();
 }
 
 if ($_SESSION['rol'] !== 'admin') {
-    // Si un Docente o Admin intenta husmear aquí, le bloqueamos el paso
-    echo "<div style='text-align: center; margin-top: 50px; font-family: Arial;'>";
+    echo "<div style='text-align: center; margin-top: 50px; font-family: Arial, sans-serif;'>";
     echo "<h3 style='color: #d9534f;'>Acceso Denegado. Esta área es exclusiva para Administradores.</h3>";
     echo "<a href='login.php' style='text-decoration: none; background: #0056b3; color: white; padding: 10px 15px; border-radius: 5px;'>Volver a mi panel</a>";
     echo "</div>";
@@ -23,51 +23,89 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma Académica</title>
-    <link rel="stylesheet" href="estilo_administrativo.css">
+    <link rel="stylesheet" href="estilo_administrativo.css?v=<?php echo time(); ?>">
 </head>
 <body>
     
-    <header class="top-navbar">
-        <div class="nav-left">
-            <button class="hamburger-btn" id="menuToggle" aria-label="Abrir menú">
-                <svg viewBox="0 0 24 24" width="30" height="30" fill="white">
-                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-                </svg>
-            </button>
-            
-            <div class="brand-title">
-                <h1>Portal Académico</h1>
-                <p>Universidad Regional</p>
-            </div>
-        </div>
-
-        <div class="nav-right">
-            <span class="user-greeting">Bienvenido, <strong><?php echo htmlspecialchars($nombre); ?></strong></span>
-            <a href="../logout.php" class="btn-logout">Cerrar Sesión</a>
-        </div>
-    </header>
-
-    <nav class="side-menu" id="sideMenu">
-        <div class="menu-content">
-            <?php require 'encabezado.php'; ?>
-        </div>
-    </nav>
+   <?php 
+   $ruta_base = "../";
+   require 'encabezado.php'; ?>
 
     <main class="main-container">
-        <h2 class="section-title">Panel de Inteligencia Estratégica</h2>
-        
-</html>
+        <div class="section-header">
+            <h2>Bienvenido(a), <?= htmlspecialchars($nombre) ?></h2>
+        </div>
 
+<div class="section-header">
+    <h3>Panel de Inteligencia Estratégica:</h3>
+    <?php if(isset($error_bd)) echo "<p class='error-msg'>$error_bd</p>"; ?>
+</div>
+
+<div class="dashboard-grid">
+    
+    <div class="kpi-card prioridad-muy-alta">
+        <h3 class="kpi-title">Finanzas (Mes: <?= $mes_actual ?>)</h3>
+        <div style="height: 120px; position: relative;">
+            <canvas id="chartFinanzas"></canvas>
+        </div>
+        <p class="kpi-desc" style="margin-top: 10px;">
+            <strong class="text-danger"><?= $kpi_morosos ?></strong> con riesgo de morosidad.
+        </p>
+    </div>
+
+    <div class="kpi-card prioridad-alta">
+        <h3 class="kpi-title">Estudiantes (Retención)</h3>
+        <div style="height: 120px; position: relative;">
+            <canvas id="chartRetencion"></canvas>
+        </div>
+        <p class="kpi-desc" style="text-align: center; margin-top: 5px;">
+            <strong><?= $kpi_estudiantes_activos ?></strong> activos.
+        </p>
+    </div>
+
+    <div class="kpi-card prioridad-alta">
+        <h3 class="kpi-title">Cursos (Saturación)</h3>
+        <div style="height: 120px; position: relative;">
+            <canvas id="chartSaturacion"></canvas>
+        </div>
+        <p class="kpi-desc" style="margin-top: 5px;">Promedio: <?= $kpi_saturacion ?> alumnos/clase.</p>
+    </div>
+
+    <div class="kpi-card prioridad-media">
+        <h3 class="kpi-title">Docentes (Carga)</h3>
+        <p class="kpi-value"><?= $kpi_carga_docente ?></p>
+        <div class="progress-bar-container" style="background: #eee; height: 8px; border-radius: 4px;">
+            <div style="background: var(--color-primario); width: <?= ($kpi_carga_docente * 20) ?>%; height: 100%; border-radius: 4px;"></div>
+        </div>
+        <p class="kpi-desc" style="margin-top: 10px; color: #17a2b8;"><em>* Evaluación pendiente.</em></p>
+    </div>
+
+    <div class="kpi-card prioridad-media">
+        <h3 class="kpi-title">Operación (Tickets)</h3>
+        <p class="kpi-value text-danger"><?= $kpi_tickets_activos ?></p>
+        <p class="kpi-desc">Solicitudes pendientes.</p>
+        <p class="kpi-desc" style="margin-top: 10px;"><a href="gestion_tickets.php" style="color: #17a2b8; text-decoration: none;">Ver panel de soporte ➔</a></p>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.getElementById('menuToggle');
-            const sideMenu = document.getElementById('sideMenu');
+    window.dataMorosos = <?= json_encode((int)$kpi_morosos) ?>;
+    window.dataAlDia = <?= json_encode((int)$kpi_alumnos_al_dia) ?>; 
+    window.dataEstudiantesActivos = <?= json_encode((int)$kpi_estudiantes_activos) ?>;
+    window.dataSaturacion = <?= json_encode((float)$kpi_saturacion) ?>;
+</script>
+    
+    <script src="graficas.js?v=<?php echo time(); ?>"></script>
+        </div>
+    </main>
 
-            menuToggle.addEventListener('click', function() {
-                // Alterna la clase 'active' para abrir o cerrar el menú
-                sideMenu.classList.toggle('active');
-            });
-        });
-    </script>
+    <?php require 'footer.php'; ?>
+
+<script src="script_admin.js?v=<?php echo time(); ?>"></script>
 </body>
+</html>

@@ -40,84 +40,103 @@ $stmt_preguntas = $conexion->prepare($sql_preguntas);
 $stmt_preguntas->execute([$id_encuesta]);
 $preguntas_existentes = $stmt_preguntas->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Configurar Preguntas</title>
-    <link rel="stylesheet" href="estilos.css">
-    <style>
-        .container { max-width: 800px; margin: 30px auto; padding: 20px; font-family: sans-serif; }
-        .box-agregar { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 30px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
-        .form-group input, .form-group select { width: 100%; padding: 8px; box-sizing: border-box; }
-        .btn-guardar { background-color: #007bff; color: white; padding: 10px 15px; border: none; cursor: pointer; border-radius: 4px; }
-        .lista-preguntas { border-collapse: collapse; width: 100%; mt-20; }
-        .lista-preguntas th, .lista-preguntas td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        .lista-preguntas th { background-color: #f2f2f2; }
-        .alerta-exito { background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurar Preguntas - Plataforma Académica</title>
+    <link rel="stylesheet" href="estilo_administrativo.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <div class="container">
-        <h2>Añadir preguntas a: <span style="color: #007bff;"><?php echo htmlspecialchars($encuesta['titulo']); ?></span></h2>
+
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+
+    <?php 
+    $ruta_base = "../";
+    require 'encabezado.php'; ?>
+
+    <main class="main-container">
         
+        <div class="section-header">
+            <h2>Configurar Preguntas</h2>
+            <p>Añadiendo preguntas a la encuesta: <strong class="texto-destacado"><?php echo htmlspecialchars($encuesta['titulo']); ?></strong></p>
+        </div>
+
         <?php if (isset($_GET['mensaje']) && $_GET['mensaje'] == 'pregunta_agregada'): ?>
-            <div class="alerta-exito">¡Pregunta añadida correctamente!</div>
+            <div class="alerta alerta-exito">¡Pregunta añadida correctamente!</div>
         <?php endif; ?>
 
-        <div class="box-agregar">
-            <form action="agregar_preguntas.php?id=<?php echo $id_encuesta; ?>" method="POST">
-                <div class="form-group">
-                    <label for="pregunta">Redacta la pregunta:</label>
-                    <input type="text" id="pregunta" name="pregunta" required placeholder="Ej: ¿Cómo calificarías las instalaciones de la sede?">
+        <div class="kpi-card form-card" style="max-width: 100%; margin-bottom: 30px;">
+            <form action="agregar_preguntas.php?id=<?php echo $id_encuesta; ?>" method="POST" class="formulario-horizontal">
+                
+                <div class="form-group" style="flex: 2;">
+                    <label for="pregunta" class="form-label">Redacta la pregunta:</label>
+                    <input type="text" id="pregunta" name="pregunta" class="form-input" required placeholder="Ej: ¿Cómo calificarías las instalaciones de la sede?">
                 </div>
                 
-                <div class="form-group">
-                    <label for="tipo_respuesta">Tipo de respuesta permitida:</label>
-                    <select id="tipo_respuesta" name="tipo_respuesta" required>
-                        <option value="Escala_1_a_5">Escala del 1 al 5 (Calificación)</option>
-                        <option value="Texto_Libre">Texto Libre (Comentarios, sugerencias)</option>
+                <div class="form-group" style="flex: 1;">
+                    <label for="tipo_respuesta" class="form-label">Tipo de respuesta:</label>
+                    <select id="tipo_respuesta" name="tipo_respuesta" class="form-input" required>
+                        <option value="Escala_1_a_5">⭐⭐⭐⭐⭐ (Escala 1 al 5)</option>
+                        <option value="Texto_Libre">📝 Texto Libre (Comentarios)</option>
                     </select>
                 </div>
                 
-                <button type="submit" class="btn-guardar">+ Añadir Pregunta</button>
+                <div class="form-group" style="display: flex; align-items: flex-end;">
+                    <button type="submit" class="btn-primario">+ Añadir Pregunta</button>
+                </div>
+
             </form>
         </div>
 
-        <h3>Preguntas Actuales (<?php echo count($preguntas_existentes); ?>)</h3>
-        
-        <?php if (count($preguntas_existentes) > 0): ?>
-            <table class="lista-preguntas">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Pregunta</th>
-                        <th>Tipo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($preguntas_existentes as $index => $p): ?>
+        <div class="kpi-card" style="width: 100%; overflow-x: auto; padding: 25px; box-sizing: border-box;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0; color: #334155;" class="titulo-tabla">Preguntas Actuales (<?php echo count($preguntas_existentes); ?>)</h3>
+            </div>
+            
+            <?php if (count($preguntas_existentes) > 0): ?>
+                <table>
+                    <thead>
                         <tr>
-                            <td><?php echo $index + 1; ?></td>
-                            <td><?php echo htmlspecialchars($p['pregunta']); ?></td>
-                            <td>
-                                <?php 
-                                    echo ($p['tipo_respuesta'] == 'Escala_1_a_5') ? '⭐⭐⭐⭐⭐ (1 a 5)' : '📝 Texto Libre'; 
-                                ?>
-                            </td>
+                            <th style="width: 50px; text-align: center;">#</th>
+                            <th>Pregunta</th>
+                            <th style="width: 250px;">Tipo de Respuesta</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>Aún no has agregado ninguna pregunta a esta encuesta.</p>
-        <?php endif; ?>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($preguntas_existentes as $index => $p): ?>
+                            <tr>
+                                <td style="text-align: center;"><strong><?php echo $index + 1; ?></strong></td>
+                                <td><?php echo htmlspecialchars($p['pregunta']); ?></td>
+                                <td>
+                                    <?php if($p['tipo_respuesta'] == 'Escala_1_a_5'): ?>
+                                        <span class="badge badge-escala">⭐⭐⭐⭐⭐ (1 a 5)</span>
+                                    <?php else: ?>
+                                        <span class="badge badge-texto">📝 Texto Libre</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <div class="reporte-vacio">
+                    <p>Aún no has agregado ninguna pregunta a esta encuesta.</p>
+                </div>
+            <?php endif; ?>
+        </div>
 
-        <br><br>
-        <a href="inicio_admin.php" style="padding: 10px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">Finalizar y Volver al Panel</a>
-    </div>
+        <div style="margin-top: 20px; text-align: right;">
+            <a href="inicio_admin.php" class="btn-volver">Finalizar y Volver al Panel</a>
+        </div>
+
+    </main>
+
+    <script src="script_admin.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

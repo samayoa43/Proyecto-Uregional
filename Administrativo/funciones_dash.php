@@ -17,7 +17,18 @@ $kpi_carga_docente = 0;
 $kpi_saturacion = 0;
 
 // Definimos el mes actual para finanzas (Ej. Abril)
-$mes_actual = 'Abril'; 
+// 1. Creamos un arreglo con los meses en español
+$meses_espanol = [
+    1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+    5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+    9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
+];
+
+// 2. Obtenemos el número del mes actual (1 al 12)
+$numero_mes = (int)date('n');
+
+// 3. Asignamos el nombre correcto a tu variable
+$mes_actual = $meses_espanol[$numero_mes];
 
 try {
     // 1. ÁREA: ESTUDIANTES (Crecimiento / Retención)

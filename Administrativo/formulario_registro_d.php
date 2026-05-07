@@ -2,39 +2,70 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro docentes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Docentes - Plataforma Académica</title>
+    <!-- Conectamos tu CSS principal -->
+    <link rel="stylesheet" href="estilo_administrativo.css?v=<?php echo time(); ?>">
 </head>
-<header>
-    <div>
-        <h1>Portal Académico</h1>
-    </div>
-    <nav>
-        <?php
-        require 'encabezado.php';
-        ?>
-    </nav>
-</header>
 <body>
-    <h2>Registrar Nuevo docente</h2>
     
-    <form action="registrar_docentes.php" method="POST">
+    <!-- SCRIPT ANTI-PARPADEO PARA MODO OSCURO -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
 
-        <label>Nombres:</label><br>
-        <input type="text" name="nombres" required><br><br>
+    <!-- Llamamos a tu plantilla maestra (Header Azul + Menú Lateral) de forma limpia -->
+    <?php 
+    $ruta_base = "../";
+    require 'encabezado.php'; ?>
 
-        <label>Apellidos:</label><br>
-        <input type="text" name="apellidos" required><br><br>
-
-        <label>Correo:</label><br>
-        <input type = "email" name ="correo" required><br><br>
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="main-container">
         
-        <label>Contraseña:</label><br>
-        <input type="password" name="contraseña" required><br><br>
+        <div class="section-header">
+            <h2>Registrar Nuevo Docente</h2>
+            <p>Ingresa los datos del nuevo catedrático para darle acceso al portal académico.</p>
+        </div>
 
+        <!-- Envolvemos el formulario en nuestra tarjeta kpi-card y form-card -->
+        <div class="kpi-card form-card">
+            <form action="registrar_docentes.php" method="POST">
 
+                <div class="form-group">
+                    <label for="nombres" class="form-label">Nombres:</label>
+                    <input type="text" id="nombres" name="nombres" class="form-input" required placeholder="Nombres del docente">
+                </div>
 
-        <button type="submit">Guardar nuevo docente</button>
-        
-    </form>
+                <div class="form-group">
+                    <label for="apellidos" class="form-label">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" class="form-input" required placeholder="Apellidos del docente">
+                </div>
+
+                <div class="form-group">
+                    <label for="correo" class="form-label">Correo Electrónico:</label>
+                    <!-- Agregué el tipo email para que el navegador valide automáticamente que lleve un @ -->
+                    <input type="email" id="correo" name="correo" class="form-input" required placeholder="ejemplo@universidad.edu.gt">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contraseña" class="form-label">Contraseña de acceso:</label>
+                    <input type="password" id="contraseña" name="contraseña" class="form-input" required placeholder="Asigna una contraseña segura">
+                </div>
+
+                <div class="form-acciones">
+                    <button type="submit" class="btn-primario">Guardar nuevo docente</button>
+                    <a href="inicio_admin.php" class="btn-secundario">Cancelar</a>
+                </div>
+                
+            </form>
+        </div>
+
+    </main>
+
+    <?php require 'footer.php'; ?>
+
+    <script src="script_admin.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

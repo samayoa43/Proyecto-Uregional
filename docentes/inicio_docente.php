@@ -40,49 +40,59 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
 ?>
 
 <!DOCTYPE html>
-<!--
-mismas instrucciones 
--->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Plataforma Académica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio Docente - Plataforma Académica</title>
+    <link rel="stylesheet" href="estilos_docente.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <h1>Portal Académico</h1>
-    <h2>Bienvenido Profesor: <? ?> </h2>
-
-        <nav>
-        <?php
-        require 'encabezado.php';
-        ?>
-        </nav>
-            <div class="navbar">
-        <a href="../logout.php" class="btn-salir">Cerrar Sesión</a>
-    </div>
-
-    <div class="tarjeta" style="border-top: 4px solid #ff9800;">
-    <h3 style="color: #ff9800; margin-top: 0;">Tablón de Anuncios</h3>
     
-    <?php if (count($lista_anuncios) > 0): ?>
-        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
-            <?php foreach ($lista_anuncios as $anuncio): ?>
-                <div style="background-color: #fff9f0; padding: 15px; border-left: 4px solid #ffb74d; border-radius: 4px;">
-                    <h4 style="margin: 0 0 5px 0; color: #333;"><?= htmlspecialchars($anuncio['titulo']) ?></h4>
-                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #555;">
-                        <?= nl2br(htmlspecialchars($anuncio['mensaje'])) ?>
-                    </p>
-                    <small style="color: #888;">
-                        👤 Publicado por: <strong><?= htmlspecialchars($anuncio['autor']) ?></strong> el <?= date('d/m/Y g:i A', strtotime($anuncio['fecha_publicacion'])) ?>
-                    </small>
-                </div>
-            <?php endforeach; ?>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+
+    <?php 
+        $ruta_base = "../"; 
+    require 'encabezado.php'; ?>
+
+    <main class="main-container">
+        
+        <div class="section-header">
+            <h2>Bienvenido(a), Profesor(a) <?= htmlspecialchars($nombre) ?></h2>
+            <p>Panel principal de gestión académica y avisos oficiales.</p>
         </div>
-    <?php else: ?>
-        <p style="color: #666; font-style: italic;">No hay anuncios nuevos por el momento.</p>
-    <?php endif; ?>
-</div>
 
-    
+        <div class="kpi-card" style="border-top: 4px solid #f59e0b;">
+            <h3 style="margin-top: 0; color: #f59e0b; margin-bottom: 20px;">Tablón de Anuncios</h3>
+            
+            <?php if (count($lista_anuncios) > 0): ?>
+                <div class="lista-anuncios">
+                    <?php foreach ($lista_anuncios as $anuncio): ?>
+                        <div class="anuncio-item">
+                            <h4><?= htmlspecialchars($anuncio['titulo']) ?></h4>
+                            <p><?= nl2br(htmlspecialchars($anuncio['mensaje'])) ?></p>
+                            <small>
+                                👤 Publicado por: <strong><?= htmlspecialchars($anuncio['autor']) ?></strong> 
+                                el <?= date('d/m/Y g:i A', strtotime($anuncio['fecha_publicacion'])) ?>
+                            </small>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="reporte-vacio">
+                    <h3 style="color: #64748b;">Sin novedades</h3>
+                    <p>No hay avisos nuevos por el momento.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+
+    </main>
+
+    <script src="<?= $ruta_base ?>docentes/script_docentes.js?v=<?php echo time(); ?>"></script>
+
 </body>
 </html>

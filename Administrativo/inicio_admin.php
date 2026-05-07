@@ -3,14 +3,14 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require 'funciones_dash.php'; 
+
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: ../login.php"); 
     exit();
 }
 
 if ($_SESSION['rol'] !== 'admin') {
-    // Si un Docente o Admin intenta husmear aquí, le bloqueamos el paso
-    echo "<div style='text-align: center; margin-top: 50px; font-family: Arial;'>";
+    echo "<div style='text-align: center; margin-top: 50px; font-family: Arial, sans-serif;'>";
     echo "<h3 style='color: #d9534f;'>Acceso Denegado. Esta área es exclusiva para Administradores.</h3>";
     echo "<a href='login.php' style='text-decoration: none; background: #0056b3; color: white; padding: 10px 15px; border-radius: 5px;'>Volver a mi panel</a>";
     echo "</div>";
@@ -23,65 +23,89 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma Académica</title>
-    <link rel="stylesheet" href="../estilos.css">
+    <link rel="stylesheet" href="estilo_administrativo.css?v=<?php echo time(); ?>">
 </head>
 <body>
     
-    <h1>Portal Académico</h1>
-    <h2>Bienvenido: <?php echo htmlspecialchars($nombre); ?>!</strong></h2>
+   <?php 
+   $ruta_base = "../";
+   require 'encabezado.php'; ?>
 
-        <nav>
-        <?php
-        require 'encabezado.php';
-        ?>
-        </nav>
-            <div class="navbar">
-        <a href="../logout.php" class="btn-salir">Cerrar Sesión</a>
+    <main class="main-container">
+        <div class="section-header">
+            <h2>Bienvenido(a), <?= htmlspecialchars($nombre) ?></h2>
+        </div>
+
+<div class="section-header">
+    <h3>Panel de Inteligencia Estratégica:</h3>
+    <?php if(isset($error_bd)) echo "<p class='error-msg'>$error_bd</p>"; ?>
+</div>
+
+<div class="dashboard-grid">
+    
+    <div class="kpi-card prioridad-muy-alta">
+        <h3 class="kpi-title">Finanzas (Mes: <?= $mes_actual ?>)</h3>
+        <div style="height: 120px; position: relative;">
+            <canvas id="chartFinanzas"></canvas>
+        </div>
+        <p class="kpi-desc" style="margin-top: 10px;">
+            <strong class="text-danger"><?= $kpi_morosos ?></strong> con riesgo de morosidad.
+        </p>
     </div>
 
-<h2 style="margin-bottom: 5px;">Panel de Inteligencia Estratégica</h2>
-
-    <?php if(isset($error_bd)) echo "<p style='color:red;'>$error_bd</p>"; ?>
-
-    <div class="dashboard-grid">
-        
-        <div class="kpi-card prioridad-muy-alta">
-            <h3 class="kpi-title">Finanzas (Mes: <?= $mes_actual ?>)</h3>
-            <p class="kpi-value text-danger"><?= $kpi_morosos ?></p>
-            <p class="kpi-desc">Alumnos con <strong>riesgo de morosidad</strong>.</p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-            <p class="kpi-desc">Pagos al día: <span class="text-success"><?= $kpi_alumnos_al_dia ?> estudiantes</span></p>
+    <div class="kpi-card prioridad-alta">
+        <h3 class="kpi-title">Estudiantes (Retención)</h3>
+        <div style="height: 120px; position: relative;">
+            <canvas id="chartRetencion"></canvas>
         </div>
-
-        <div class="kpi-card prioridad-alta">
-            <h3 class="kpi-title">Estudiantes (Retención)</h3>
-            <p class="kpi-value"><?= $kpi_estudiantes_activos ?></p>
-            <p class="kpi-desc">Alumnos activos en el sistema.</p>
-            <p class="kpi-desc" style="margin-top: 10px; color: #ff9800;"><em></em></p>
-        </div>
-
-        <div class="kpi-card prioridad-alta">
-            <h3 class="kpi-title">Cursos (Saturación)</h3>
-            <p class="kpi-value"><?= $kpi_saturacion ?> <span style="font-size: 16px; color: #888;">alumnos/clase</span></p>
-            <p class="kpi-desc">Promedio de estudiantes por sección abierta.</p>
-        </div>
-
-        <div class="kpi-card prioridad-media">
-            <h3 class="kpi-title">Docentes (Carga)</h3>
-            <p class="kpi-value"><?= $kpi_carga_docente ?> <span style="font-size: 16px; color: #888;">clases/docente</span></p>
-            <p class="kpi-desc">Promedio de carga laboral asignada.</p>
-            <p class="kpi-desc" style="margin-top: 10px; color: #17a2b8;"><em>* Desempeño: Pendiente de módulo de encuestas.</em></p>
-        </div>
-
-        <div class="kpi-card prioridad-media">
-            <h3 class="kpi-title">Operación (Tickets)</h3>
-            <p class="kpi-value text-danger"><?= $kpi_tickets_activos ?></p>
-            <p class="kpi-desc">Solicitudes pendientes de atención.</p>
-            <p class="kpi-desc" style="margin-top: 10px;"><a href="gestion_tickets.php" style="color: #17a2b8; text-decoration: none;">Ver panel de soporte ➔</a></p>
-        </div>
-
+        <p class="kpi-desc" style="text-align: center; margin-top: 5px;">
+            <strong><?= $kpi_estudiantes_activos ?></strong> activos.
+        </p>
     </div>
 
+    <div class="kpi-card prioridad-alta">
+        <h3 class="kpi-title">Cursos (Saturación)</h3>
+        <div style="height: 120px; position: relative;">
+            <canvas id="chartSaturacion"></canvas>
+        </div>
+        <p class="kpi-desc" style="margin-top: 5px;">Promedio: <?= $kpi_saturacion ?> alumnos/clase.</p>
+    </div>
+
+    <div class="kpi-card prioridad-media">
+        <h3 class="kpi-title">Docentes (Carga)</h3>
+        <p class="kpi-value"><?= $kpi_carga_docente ?></p>
+        <div class="progress-bar-container" style="background: #eee; height: 8px; border-radius: 4px;">
+            <div style="background: var(--color-primario); width: <?= ($kpi_carga_docente * 20) ?>%; height: 100%; border-radius: 4px;"></div>
+        </div>
+        <p class="kpi-desc" style="margin-top: 10px; color: #17a2b8;"><em>* Evaluación pendiente.</em></p>
+    </div>
+
+    <div class="kpi-card prioridad-media">
+        <h3 class="kpi-title">Operación (Tickets)</h3>
+        <p class="kpi-value text-danger"><?= $kpi_tickets_activos ?></p>
+        <p class="kpi-desc">Solicitudes pendientes.</p>
+        <p class="kpi-desc" style="margin-top: 10px;"><a href="gestion_tickets.php" style="color: #17a2b8; text-decoration: none;">Ver panel de soporte ➔</a></p>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+<script>
+    window.dataMorosos = <?= json_encode((int)$kpi_morosos) ?>;
+    window.dataAlDia = <?= json_encode((int)$kpi_alumnos_al_dia) ?>; 
+    window.dataEstudiantesActivos = <?= json_encode((int)$kpi_estudiantes_activos) ?>;
+    window.dataSaturacion = <?= json_encode((float)$kpi_saturacion) ?>;
+</script>
+    
+    <script src="graficas.js?v=<?php echo time(); ?>"></script>
+        </div>
+    </main>
+
+    <?php require 'footer.php'; ?>
+
+<script src="script_admin.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

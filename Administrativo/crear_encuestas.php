@@ -10,33 +10,53 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== "admin") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Nueva Encuesta</title>
-    <link rel="stylesheet" href="estilos.css"> 
-    <style>
-        .form-container { max-width: 500px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; }
-        .btn-crear { background-color: #28a745; color: white; padding: 10px 15px; border: none; cursor: pointer; border-radius: 4px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Encuesta - Plataforma Académica</title>
+    <link rel="stylesheet" href="estilo_administrativo.css?v=<?php echo time(); ?>">
 </head>
 <body>
-    <div class="form-container">
-        <h2>Crear Nueva Encuesta</h2>
-        <form action="procesar_encuestas.php" method="POST">
-            <div class="form-group">
-                <label for="titulo">Título de la Encuesta:</label>
-                <input type="text" id="titulo" name="titulo" required placeholder="Ej: Evaluación de Instalaciones">
-            </div>
-            
-            <div class="form-group">
-                <label for="descripcion">Descripción / Instrucciones:</label>
-                <textarea id="descripcion" name="descripcion" rows="4" required placeholder="Por favor, responde honestamente..."></textarea>
-            </div>
-            
-            <button type="submit" class="btn-crear">Guardar y Continuar</button>
-            <a href="inicio_admin.php" style="margin-left: 10px;">Cancelar</a>
-        </form>
-    </div>
+
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+
+    <?php 
+    $ruta_base = "../";
+    require 'encabezado.php'; ?>
+
+    <main class="main-container">
+        
+        <div class="section-header">
+            <h2>Diseñador de Encuestas</h2>
+            <p>Configura los detalles generales antes de proceder a agregar las preguntas.</p>
+        </div>
+
+        <div class="kpi-card form-card">
+            <form action="procesar_encuestas.php" method="POST">
+                
+                <div class="form-group">
+                    <label for="titulo" class="form-label">Título de la Encuesta:</label>
+                    <input type="text" id="titulo" name="titulo" class="form-input" required placeholder="Ej: Evaluación de Instalaciones o Clima Laboral">
+                </div>
+                
+                <div class="form-group">
+                    <label for="descripcion" class="form-label">Descripción / Instrucciones:</label>
+                    <textarea id="descripcion" name="descripcion" class="form-input textarea-resize" rows="4" required placeholder="Explica brevemente el propósito de esta encuesta para los participantes..."></textarea>
+                </div>
+                
+                <div class="form-acciones">
+                    <button type="submit" class="btn-primario">Guardar y Continuar</button>
+                    <a href="inicio_admin.php" class="btn-secundario">Cancelar</a>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+        <?php require 'footer.php'; ?>
+
+    <script src="script_admin.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

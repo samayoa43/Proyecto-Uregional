@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Plataforma Académica</title>
     <link rel="stylesheet" href="estilo_administrativo.css?v=<?php echo time(); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <script>

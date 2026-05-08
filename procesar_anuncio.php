@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publicar_anuncio'])) {
     $audiencia = $_POST['audiencia'];
 
     // Validación de seguridad extra: Evitar que un Docente manipule el HTML para enviar a 'Todos'
-    if ($rol_usuario === 'Docente' && $audiencia !== 'Estudiantes') {
+    if ($rol_usuario === 'docente' && $audiencia !== 'Estudiantes') {
         $mensaje_error = "Error de permisos: Los docentes solo pueden dirigir anuncios a los estudiantes.";
     } else {
         try {

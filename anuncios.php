@@ -1,8 +1,6 @@
 <?php
 require 'procesar_anuncio.php'; 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -56,7 +54,6 @@ require 'procesar_anuncio.php';
                             <option value="Docentes">Solo Catedráticos (Docentes)</option>
                             <option value="Estudiantes">Solo Alumnado (Estudiantes)</option>
                         <?php else: ?>
-
                             <option value="Estudiantes" selected>Mis Estudiantes</option>
                         <?php endif; ?>
                     </select>
@@ -83,7 +80,6 @@ require 'procesar_anuncio.php';
 
     </main>
 
-    <!-- LLAMAMOS AL FOOTER (Asumiendo que el footer es general para ambos) -->
     <?php require 'administrativo/footer.php'; ?>
 
     <script src="administrativo/script_admin.js?v=<?php echo time(); ?>"></script>

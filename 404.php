@@ -1,3 +1,32 @@
+<?php
+// Iniciamos la sesión si no está iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Ruta por defecto (si nadie ha iniciado sesión o si es un visitante)
+$ruta_destino = "/proyecto/login.php"; 
+
+// Verificamos si hay alguien logueado
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset($_SESSION['rol'])) {
+    
+    // Dependiendo del rol, asignamos la ruta de su respectivo panel
+    switch ($_SESSION['rol']) {
+        case 'admin':
+            $ruta_destino = "/proyecto/administrativo/inicio_admin.php";
+            break;
+        case 'docente':
+            // Ajusta el nombre del archivo si es diferente
+            $ruta_destino = "/proyecto/docentes/inicio_docente.php"; 
+            break;
+        case 'alumno':
+            // Ajusta el nombre del archivo si es diferente
+            $ruta_destino = "index.php"; 
+            break;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -53,7 +82,7 @@
         <h1>404</h1>
         <h2>¡Oops! Te has perdido en el campus.</h2>
         <p>La página que estás buscando no existe, fue movida o no tienes permisos para verla.</p>
-        <a href="/proyecto/index.php" class="btn-inicio">Volver al Inicio</a>
+        <a href="<?php echo $ruta_destino; ?>" class="btn-inicio">Volver al Inicio</a>
     </div>
 </body>
 </html>

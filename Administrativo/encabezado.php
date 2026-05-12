@@ -28,7 +28,6 @@
         </div>
     </div>
     <div class="nav-right">
-        <span class="user-greeting">Bienvenido, <strong>Admin</strong></span>
         <a href="../logout.php" class="btn-salir">Cerrar Sesión</a>
         <button id="themeToggle" class="theme-btn" aria-label="Alternar modo oscuro">🌙</button>
     </div>

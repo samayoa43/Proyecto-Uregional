@@ -75,7 +75,7 @@ try {
             </p>
         </div>
     </div>
-    <div class="tarjeta" style="border-top: 4px solid #ff9800;">
+<div class="tarjeta" style="border-top: 4px solid #ff9800;">
     <h3 style="color: #ff9800; margin-top: 0;">Tablón de Anuncios</h3>
     
     <?php if (count($lista_anuncios) > 0): ?>

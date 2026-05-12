@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require 'conexion.php';
+require '../conexion.php';
 
 $id_docente = $_SESSION['id_docente'] ?? null;
 $horarios = [];

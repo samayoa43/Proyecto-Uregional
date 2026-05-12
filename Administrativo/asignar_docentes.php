@@ -1,5 +1,7 @@
 <?php
-require 'C:\laragon\www\proyecto\conexion.php';
+
+require_once __DIR__ . '/validar_sesion_admin.php'; 
+require '../conexion.php';
 
 $mensaje = '';
 $lista_docentes = [];

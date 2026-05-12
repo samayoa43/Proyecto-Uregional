@@ -1,5 +1,5 @@
-
 <?php
+require_once __DIR__ . '/validar_sesion_docentes.php';
 require 'calificaciones.php';
 
     $ruta_base = "../"; 

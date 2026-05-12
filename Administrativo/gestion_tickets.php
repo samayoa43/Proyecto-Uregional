@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/validar_sesion_admin.php'; 
+
 require 'procesar_tickets.php'; // Carga las funciones para obtener los KPIs
 
 ?>

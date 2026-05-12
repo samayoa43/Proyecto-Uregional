@@ -1,3 +1,6 @@
+<?php 
+require_once __DIR__ . '/validar_sesion_admin.php'; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +16,6 @@
             document.body.classList.add('dark-mode');
         }
     </script>
-    
 
 <?php 
 $ruta_base = "../";

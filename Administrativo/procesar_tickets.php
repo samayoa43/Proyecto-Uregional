@@ -1,13 +1,6 @@
 <?php
-// Encendemos depuración
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-require '../conexion.php'; // Asegúrate de que apunte a tu conexión
+require_once __DIR__ . '/validar_sesion_admin.php'; 
+require '../conexion.php'; 
 
 // 1. SEGURIDAD: Solo Administradores
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {

@@ -1,10 +1,5 @@
 <?php
-session_start();
-
-if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== "admin") {
-    header("Location: login.php?error=acceso_denegado");
-    exit();
-}
+require_once __DIR__ . '/validar_sesion_admin.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="es">

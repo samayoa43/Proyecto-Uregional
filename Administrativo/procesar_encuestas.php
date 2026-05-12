@@ -1,5 +1,7 @@
 <?php
-session_start();
+
+require_once __DIR__ . '/validar_sesion_admin.php'; 
+
 require '../conexion.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

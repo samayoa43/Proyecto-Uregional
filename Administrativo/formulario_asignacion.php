@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . '/validar_sesion_admin.php'; 
+
 require 'asignar_docentes.php';
 ?>
 <!DOCTYPE html>

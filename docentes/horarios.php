@@ -1,5 +1,6 @@
 <?php
-require 'proceso_horario.php';
+ require_once __DIR__ . '/validar_sesion_docentes.php';
+ require 'proceso_horario.php';
 
     $ruta_base = "../"; 
 ?>

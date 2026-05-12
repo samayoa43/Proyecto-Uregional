@@ -1,8 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
+require_once __DIR__ . '/validar_sesion_docentes.php';
 require '../conexion.php';
 
 $id_docente = $_SESSION['id_docente'] ?? null; 

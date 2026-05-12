@@ -1,9 +1,8 @@
 <?php
+require_once __DIR__ . '/validar_sesion_docentes.php';
 require 'curso_docentes.php';
     $ruta_base = "../"; 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>

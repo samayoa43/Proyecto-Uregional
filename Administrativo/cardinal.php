@@ -1,5 +1,9 @@
 <?php
+require_once __DIR__ . '/validar_sesion_admin.php'; 
 require 'procesar_cardinal.php'; 
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

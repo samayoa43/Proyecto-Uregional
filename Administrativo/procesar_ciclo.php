@@ -1,12 +1,5 @@
 <?php
-// Encendemos luces de depuración
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/validar_sesion_admin.php'; 
 require '../conexion.php'; // Ajusta la ruta a tu conexión
 
 $mensaje_exito = null;

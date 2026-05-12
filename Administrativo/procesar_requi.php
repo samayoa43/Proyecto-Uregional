@@ -1,12 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once __DIR__ . '/validar_sesion_admin.php'; 
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-require 'C:\laragon\www\proyecto\conexion.php';
+require '../conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_curso'])) {
     $id_curso = $_POST['id_curso'];

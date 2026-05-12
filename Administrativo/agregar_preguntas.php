@@ -1,11 +1,9 @@
 <?php
+
+require_once __DIR__ . '/validar_sesion_admin.php'; 
+
 session_start();
 require '../conexion.php'; 
-
-if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== "admin") {
-    header("Location: login.php?error=acceso_denegado");
-    exit();
-}
 
 if (!isset($_GET['id'])) {
     header("Location: inicio_admin.php?error=id_faltante");

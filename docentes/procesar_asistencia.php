@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/validar_sesion_docentes.php';
 require '../conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['estado']) && isset($_POST['id_asignacion'])) {

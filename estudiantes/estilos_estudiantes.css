@@ -1,0 +1,388 @@
+/* Importar la fuente Inter desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Variables globales de color y diseño */
+:root {
+    --card: rgba(16, 27, 46, 0.76);
+    --card-border: rgba(255,255,255,0.08);
+    --text: #ecf2ff;
+    --muted: #9eb0ce;
+    --primary: #5b8cff;
+    --primary-strong: #3b6fff;
+    --accent: #18c29c;
+    --shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(91, 140, 255, 0.22), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(24, 194, 156, 0.18), transparent 22%),
+        linear-gradient(160deg, #05101d 0%, #081423 45%, #0c1728 100%);
+    color: var(--text);
+    min-height: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Efecto cristal / Glassmorphism */
+.glass {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--shadow);
+}
+
+.muted { 
+    color: var(--muted); 
+}
+
+/* Alertas y Mensajes */
+.alert {
+    width: 100%;
+    margin: 0 0 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.alert-success { background: rgba(24, 194, 156, 0.14); }
+.alert-danger { background: rgba(255, 107, 129, 0.12); }
+
+/* Botones */
+.btn {
+    appearance: none;
+    border: 0;
+    border-radius: 16px;
+    padding: .95rem 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    color: white;
+}
+.btn-secondary {
+    background: linear-gradient(135deg, #15253f, #0f1d31);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Formularios */
+input, select, textarea {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,0.09);
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+    padding: .95rem 1rem;
+    color: var(--text);
+    outline: none;
+}
+select option { 
+    color: #111827; 
+}
+label {
+    display: grid;
+    gap: .55rem;
+}
+label span {
+    color: var(--muted);
+    font-size: .95rem;
+    font-weight: 600;
+}
+
+/* Estructura Principal (Grid) */
+.app-shell {
+    display: grid;
+    grid-template-columns: 290px 1fr;
+    gap: 1.5rem;
+    min-height: 100vh;
+    padding: 1.25rem;
+}
+
+/* Barra Lateral */
+.sidebar {
+    border-radius: 28px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: sticky;
+    top: 1.25rem;
+    height: calc(100vh - 2.5rem);
+}
+.logo-wrap {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.logo-mark {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+}
+.menu {
+    display: grid;
+    gap: .55rem;
+}
+.menu a, .logout-link {
+    padding: .9rem 1rem;
+    border-radius: 16px;
+    color: #dbe7ff;
+}
+.menu a:hover, .logout-link:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+/* Contenido Central */
+.content {
+    display: grid;
+    gap: 1.35rem;
+    padding-bottom: 2rem;
+}
+.hero {
+    border-radius: 30px;
+    padding: 1.8rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1.25rem;
+    align-items: flex-start;
+}
+.hero-badge, .pill {
+    display: inline-flex;
+    padding: .45rem .75rem;
+    border-radius: 999px;
+    background: rgba(91, 140, 255, 0.12);
+    border: 1px solid rgba(91, 140, 255, 0.28);
+    color: #cfe0ff;
+    font-size: .88rem;
+    font-weight: 700;
+}
+.hero h1 {
+    margin: 1rem 0 .75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+}
+.hero-meta {
+    min-width: 260px;
+    display: grid;
+    gap: .7rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 1rem;
+    border-radius: 20px;
+}
+
+/* Tarjetas de Estadísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+.stat-card, .panel {
+    border-radius: 24px;
+    padding: 1.25rem;
+}
+.stat-card {
+    display: grid;
+    gap: .55rem;
+}
+.stat-card span, .stat-card small { 
+    color: var(--muted); 
+}
+.stat-card strong { 
+    font-size: 1.8rem; 
+}
+
+/* Paneles y Columnas */
+.panel-grid {
+    display: grid;
+    gap: 1rem;
+}
+.two-cols { 
+    grid-template-columns: 1fr 1fr; 
+}
+.wide-right { 
+    grid-template-columns: 0.95fr 1.05fr; 
+}
+.panel-header { 
+    margin-bottom: 1rem; 
+}
+
+/* Listas de Perfil */
+.profile-list {
+    display: grid;
+    gap: .95rem;
+}
+.profile-list div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .95rem 1rem;
+    background: rgba(255,255,255,0.04);
+    border-radius: 18px;
+}
+.profile-list span { 
+    color: var(--muted); 
+}
+
+/* Tablas */
+.table-wrap {
+    overflow: auto;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+}
+thead { 
+    background: rgba(255,255,255,0.05); 
+}
+th, td {
+    padding: .95rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Tareas y Entregas */
+.assignment-grid {
+    display: grid;
+    gap: 1rem;
+}
+.assignment-card {
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.03);
+    border-radius: 22px;
+    padding: 1rem;
+}
+.assignment-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+}
+.assignment-description, .assignment-meta, .mini-section, .panel-header p { 
+    color: var(--muted); 
+}
+.assignment-meta {
+    display: flex;
+    gap: .8rem;
+    flex-wrap: wrap;
+    font-size: .95rem;
+    margin-bottom: 1rem;
+}
+.assignment-form {
+    display: grid;
+    gap: .8rem;
+}
+.submitted-box {
+    display: grid;
+    gap: .35rem;
+    margin: 0 0 1rem;
+    padding: .95rem 1rem;
+    background: rgba(24, 194, 156, 0.08);
+    border-radius: 16px;
+}
+.mini-section + .mini-section {
+    margin-top: 1.2rem;
+}
+
+/* Responsividad para Móviles y Tablets */
+@media (max-width: 1180px) {
+    .app-shell,
+    .stats-grid,
+    .two-cols,
+    .wide-right,
+    .hero {
+        grid-template-columns: 1fr;
+    }
+    .sidebar {
+        position: static;
+        height: auto;
+    }
+}
+
+/* --- ESTILOS PARA EL ENCABEZADO Y LOGO --- */
+
+.logo-wrap {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2.5rem; /* Espacio extra debajo del encabezado */
+    padding: 0.5rem;
+}
+
+/* Estilo para la imagen del logo */
+.logo-navbar {
+    width: 60px; /* Tamaño ideal para el sidebar */
+    height: 60px;
+    object-fit: contain; /* Evita que la imagen se deforme */
+    border-radius: 14px; /* Bordes redondeados suaves */
+    background: rgba(255, 255, 255, 0.05); /* Fondo sutil para resaltar el logo */
+    padding: 5px;
+    transition: transform 0.3s ease;
+}
+
+.logo-navbar:hover {
+    transform: scale(1.05); /* Efecto de aumento suave al pasar el mouse */
+}
+
+/* Tipografía del título del portal */
+.logo-wrap h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #ffffff 0%, #9eb0ce 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Texto degradado moderno */
+    letter-spacing: -0.5px;
+}
+
+.logo-wrap .muted {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Ajuste de la barra lateral para asegurar que el contenido esté bien distribuido */
+.sidebar {
+    padding: 2rem 1.5rem; /* Más espacio interno */
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mejora en los enlaces del menú */
+.menu a {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.menu a:hover {
+    background: rgba(91, 140, 255, 0.1);
+    color: #ffffff;
+    border-color: rgba(91, 140, 255, 0.2);
+    padding-left: 1.2rem; /* Pequeño desplazamiento a la derecha */
+}

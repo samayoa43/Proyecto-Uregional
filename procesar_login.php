@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if($estudiante) {
                     $_SESSION['id_estudiante'] = $estudiante['id_estudiante'];
                 }
-                header("Location: index.php");
+                header("Location: estudiantes/inicio_estudiantes.php");
                 
             } elseif ($usuario['nombre_rol'] === 'admin') {
                 

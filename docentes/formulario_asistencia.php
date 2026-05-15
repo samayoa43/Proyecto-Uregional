@@ -110,6 +110,8 @@ require 'curso_docentes.php';
 
     </main>
 
+    <?php require 'footer.php'; ?>
+
     <script src="<?= $ruta_base ?>docentes/script_docentes.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

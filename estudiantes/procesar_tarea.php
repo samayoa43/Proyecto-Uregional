@@ -55,21 +55,21 @@ if (isset($_FILES['archivo_tarea']) && $_FILES['archivo_tarea']['error'] === UPL
                 $stmt->execute([$id_tarea, $id_estudiante, $ruta_bd, $comentario]);
             }
 
-            header("Location: mis_tareas.php?exito=1");
+            header("Location: tareas.php?exito=1");
             exit();
 
         } catch (PDOException $e) {
             // Si falla la base de datos, borramos el archivo físico para no tener basura en el servidor
             unlink($ruta_fisica);
-            header("Location: mis_tareas.php?error=db");
+            header("Location: tareas.php?error=db");
             exit();
         }
     } else {
-        header("Location: mis_tareas.php?error=upload");
+        header("Location: tareas.php?error=upload");
         exit();
     }
 } else {
-    header("Location: mis_tareas.php?error=vacio");
+    header("Location: tareas.php?error=vacio");
     exit();
 }
 ?>

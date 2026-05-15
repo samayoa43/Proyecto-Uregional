@@ -278,6 +278,210 @@ body.dark-mode .anuncio-item {
 body.dark-mode .anuncio-item h4 { color: var(--color-acento); }
 
 /* =========================================
+   ESTILOS DE FORMULARIOS (Docentes)
+========================================= */
+
+/* La tarjeta que envuelve el formulario */
+.form-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+    margin: 0 auto; /* Centra el formulario en la pantalla */
+    border: 1px solid #e2e8f0;
+}
+
+/* Agrupador de campos para usar Flexbox en pantallas grandes */
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* En celulares se ponen uno debajo del otro */
+}
+
+/* Espaciado de cada campo */
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* Estilo de las etiquetas (Labels) */
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 8px;
+}
+
+.text-danger {
+    color: #ef4444; /* Asterisco rojo para campos obligatorios */
+}
+
+/* Estilo de los inputs, selects y textareas */
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    color: #1e293b;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Evita que el padding rompa el ancho */
+    font-family: inherit;
+}
+
+/* Efecto al hacer clic en un input */
+.form-control:focus {
+    outline: none;
+    border-color: var(--color-primario, #159cb0);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(21, 156, 176, 0.15);
+}
+
+/* Redimensionamiento solo vertical para el textarea */
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Contenedor de botones alineado a la derecha */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Botón principal */
+.btn-primario {
+    background-color: var(--color-primario, #159cb0);
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primario:hover {
+    background-color: #117d8d;
+    transform: translateY(-1px);
+}
+
+/* Botón secundario (Cancelar) */
+.btn-secundario {
+    background-color: #f1f5f9;
+    color: #475569;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-secundario:hover {
+    background-color: #e2e8f0;
+    color: #1e293b;
+}
+
+/* =========================================
+   ADAPTACIÓN A MODO OSCURO (CORREGIDO)
+========================================= */
+/* Ahora usamos la clase de tu <body> en lugar del @media del sistema */
+body.dark-mode .form-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark-mode .form-group label {
+    color: #cbd5e1;
+}
+
+body.dark-mode .form-control {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+body.dark-mode .form-control:focus {
+    background-color: #1e293b;
+}
+
+body.dark-mode .btn-secundario {
+    background-color: #334155;
+    color: #cbd5e1;
+}
+
+body.dark-mode .btn-secundario:hover {
+    background-color: #475569;
+    color: #f8fafc;
+}
+
+body.dark-mode .form-actions {
+    border-color: #334155;
+}
+
+/* =========================================
+   MENÚ DE TARJETAS (ESTILO CUADRADO)
+========================================= */
+
+/* Contenedor principal para alinear las tarjetas */
+.container_links {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap; /* Permite que las tarjetas bajen en celulares */
+}
+
+/* Estilo base de la tarjeta (Blancas con texto oscuro) */
+.container_links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;         /* Ancho fijo para que sean cuadradas */
+    height: 150px;        /* Alto fijo para que sean cuadradas */
+    background-color: #ffffff;
+    color: #0f172a;       /* Azul muy oscuro para el texto */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 16px;  /* Bordes redondeados como en la foto */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Sombra suave */
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+}
+
+/* Efecto Hover (Simula la tarjeta color cian de tu foto al pasar el mouse) */
+.container_links a:hover {
+    background-color: #159cb0; /* Tu color principal */
+    color: #ffffff;
+    transform: translateY(-5px); /* Se levanta un poco */
+    box-shadow: 0 15px 30px rgba(21, 156, 176, 0.3);
+}
+
+/* =========================================
+   ADAPTACIÓN A MODO OSCURO
+========================================= */
+body.dark-mode .container_links a {
+    background-color: #1e293b; /* Fondo oscuro de tarjeta */
+    color: #f8fafc;            /* Texto claro */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Al pasar el mouse en modo oscuro sigue siendo cian */
+body.dark-mode .container_links a:hover {
+    background-color: #159cb0;
+    color: #ffffff;
+}
+
+/* =========================================
    RESPONSIVO (CELULARES)
 ========================================= */
 @media screen and (max-width: 768px) {

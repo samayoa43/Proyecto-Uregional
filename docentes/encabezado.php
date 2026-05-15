@@ -40,6 +40,7 @@
         <a href="<?= $ruta_base ?>docentes/horarios.php">Horarios</a>
         <a href="<?= $ruta_base ?>anuncios.php">Anuncios</a>
         <a href="<?= $ruta_base ?>tickets.php">Soporte</a>
+        <a href="<?= $ruta_base ?>docentes/acciones_tareas.php">Tareas</a>
     </div>
 </nav>
 </body>

@@ -32,7 +32,7 @@ $tareas = $stmt_tareas->fetchAll(PDO::FETCH_ASSOC);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mis Tareas - Campus Pro</title>
+    <title>Mis Tareas - Plataforma Academica</title>
     <link rel="stylesheet" href="../css/estilos_dashboard.css">
     <style>
         /* Estilos específicos para las tarjetas de tareas */

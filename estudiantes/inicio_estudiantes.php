@@ -18,7 +18,7 @@ require 'funciones_dash.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma Académica</title>
-    <link rel="stylesheet" href="../css/estilos_dashboard.css"> 
+    <link rel="stylesheet" href="estilos_estudiantes.css"> 
 </head>
 <body>
 <div class="app-shell">
@@ -129,6 +129,7 @@ require 'funciones_dash.php';
                 <?php endforeach; ?>
             </div>
         </section>
+        
     </main>
 </div>
 </body>

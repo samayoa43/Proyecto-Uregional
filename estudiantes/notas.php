@@ -1,6 +1,7 @@
 <?php
 require 'validar_sesion_estudiantes.php';
 require_once __DIR__ . '/procesar_notas.php';
+require 'verificar_solvencia.php';
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +9,7 @@ require_once __DIR__ . '/procesar_notas.php';
 <head>
     <meta charset="UTF-8">
     <title>Mis Calificaciones</title>
-    <link rel="stylesheet" href="../css/estilos_dashboard.css">
+    <link rel="stylesheet" href="estilos_estudiantes.css"> 
 </head>
 <body>
 <div class="app-shell">
@@ -18,7 +19,7 @@ require_once __DIR__ . '/procesar_notas.php';
     <main class="content">
         <section class="panel glass">
             <div class="panel-header">
-                <h3>Kardex Oficial de Calificaciones</h3>
+                <h3>Calificaciones</h3>
                 <p class="muted">Historial de notas parciales y finales.</p>
             </div>
             <div class="table-wrap">

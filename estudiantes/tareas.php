@@ -33,7 +33,7 @@ $tareas = $stmt_tareas->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Mis Tareas - Plataforma Academica</title>
-    <link rel="stylesheet" href="../css/estilos_dashboard.css">
+    <link rel="stylesheet" href="estilos_estudiantes.css">
     <style>
         /* Estilos específicos para las tarjetas de tareas */
         .assignment-grid { display: grid; gap: 1.5rem; }

@@ -1,6 +1,7 @@
 <?php
 require 'validar_sesion_estudiantes.php';
 require '../conexion.php';
+require_once 'verificar_solvencia.php';
 
 $id_usuario = $_SESSION['id_usuario'];
 
@@ -50,8 +51,8 @@ if ($asignaciones_abiertas) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Asignación de Cursos - Campus Pro</title>
-    <link rel="stylesheet" href="../css/estilos_dashboard.css">
+    <title>Asignación de Cursos</title>
+    <link rel="stylesheet" href="estilos_estudiantes.css"> 
     <style>
         .banner-alerta { padding: 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; }
         .banner-cerrado { background: rgba(255, 107, 129, 0.12); border: 1px solid rgba(255, 107, 129, 0.3); color: #ff8a9d; }

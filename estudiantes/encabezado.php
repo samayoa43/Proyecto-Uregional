@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Estudiantil</title>
-    <link rel="stylesheet" href="estilos_estudiantes.css"> 
 </head>
 <body>
 <aside class="sidebar glass">

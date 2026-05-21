@@ -46,6 +46,17 @@ require 'calificaciones.php';
             <h2>Registro de Calificaciones</h2>
             <p>Ingrese las notas correspondientes a la 1ra, 2ra y 3ra unidad del curso.</p>
         </div>
+        <?php if (isset($_GET['exito'])): ?>
+        <div class="alert alert-success">
+        <span>✅</span>
+        <div><strong>¡Operación exitosa!</strong> Calificaciones guardadas con éxito.</div>
+        </div>
+        <?php elseif (isset($_GET['error'])): ?>
+        <div class="alert alert-danger">
+        <span>⚠️</span>
+        <div><strong>Error:</strong> Ocurrió un error al guardar las calificaciones. Inténtalo de nuevo.</div>
+        </div>
+        <?php endif; ?>
 
         <div class="kpi-card">
             <form action="" method="POST" style="display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap;">

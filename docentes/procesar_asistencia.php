@@ -29,9 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['estado']) && isset($_P
                 $estado_marcado                                             
             ]);
         }
-        
-        echo "<h3>¡Asistencia del curso guardada/corregida con éxito!</h3>";
-        echo "<a href='index.php'>Volver al panel</a>"; 
+            header("Location: formulario_asistencia.php?exito=1");
         
     } catch(PDOException $e) {
         echo "Error al guardar la asistencia: " . $e->getMessage();

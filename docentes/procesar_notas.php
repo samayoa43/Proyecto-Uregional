@@ -32,8 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ]);
             }
 
-            echo "<h3>¡Calificaciones guardadas/actualizadas correctamente!</h3>";
-            echo "<a href='formulario_docentes.php'>Volver al panel</a>";
+            header("Location: formulario_docentes.php?exito=1");
             
         } catch(PDOException $e) {
             echo "Error al intentar guardar: " . $e->getMessage();

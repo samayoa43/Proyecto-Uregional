@@ -4,7 +4,7 @@ require '../conexion.php';
 
 // 2. Obtener el ID del estudiante real basado en el usuario logueado
 $id_usuario = $_SESSION['id_usuario'];
-$stmt_est = $conexion->prepare("SELECT id_estudiante, nombres, apellidos, correo FROM estudiantes WHERE id_usuario = ?");
+$stmt_est = $conexion->prepare("SELECT id_estudiante, nombres, apellidos FROM estudiantes WHERE id_usuario = ?");
 $stmt_est->execute([$id_usuario]);
 $estudiante = $stmt_est->fetch(PDO::FETCH_ASSOC);
 
@@ -34,7 +34,6 @@ require 'funciones_dash.php';
                 <p class="muted">Consulta tu progreso académico, tareas y pagos desde aquí.</p>
             </div>
             <div class="hero-meta">
-                <div><strong>Correo:</strong> <?php echo htmlspecialchars($estudiante['correo']); ?></div>
             </div>
         </section>
 

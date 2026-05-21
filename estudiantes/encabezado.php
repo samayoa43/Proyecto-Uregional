@@ -23,6 +23,7 @@
         <a href="tareas.php">Tareas</a>
         <a href="pagos.php">Pagos y Estado de Cuenta</a>
         <a href="asignacion_cursos.php">Asignación de Cursos</a>
+        <a href="perfil.php">Mi Perfil</a>
     </nav>
     <a class="logout-link" href="../logout.php">Cerrar sesión</a>
 </aside>

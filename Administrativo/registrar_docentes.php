@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombres = trim($_POST['nombres']);
     $apellidos = trim($_POST['apellidos']);
     $correo = trim($_POST['correo']);
-    $contraseña = $_POST['contraseña'];
+    $contraseña = password_hash($_POST['contraseña'], PASSWORD_DEFAULT);
 
     $nombre_completo = $nombres . " " . $apellidos;
     
@@ -28,25 +28,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_roles = $conexion->prepare($sql_roles);
         $stmt_roles->execute([$id_usuario_nuevo, $id_rol_docente]);
 
-        $sql_docentes = "INSERT INTO docentes (nombres, apellidos, correo, contraseña, id_usuario) VALUES (?, ?, ?, ?, ?)";
+        $sql_docentes = "INSERT INTO docentes (nombres, apellidos, id_usuario) VALUES (?, ?, ?)";
         $stmt_docentes = $conexion->prepare($sql_docentes);
-        $stmt_docentes->execute([$nombres, $apellidos, $correo, $contraseña, $id_usuario_nuevo]);
+        $stmt_docentes->execute([$nombres, $apellidos, $id_usuario_nuevo]);
 
         $conexion->commit();
 
-        echo "<div style='font-family: Arial; margin: 20px;'>";
-        echo "<h3 style='color: green;'>¡El docente ha sido registrado y enlazado exitosamente!</h3>";
-        echo "<a href='formulario_registro_d.php' style='text-decoration: none; background: #0056b3; color: white; padding: 10px; border-radius: 5px;'>Volver al panel</a>";
-        echo "</div>";
-        
+        header("Location: formulario_registro_d.php?exito=1");
+        exit();
+
     } catch(PDOException $e) {
         $conexion->rollBack();
         
-        echo "<div style='font-family: Arial; margin: 20px;'>";
-        echo "<h3 style='color: red;'>Error al intentar guardar. No se registró al docente.</h3>";
-        echo "<p>Detalle técnico: " . htmlspecialchars($e->getMessage()) . "</p>";
-        echo "<a href='formulario_registro_d.php'>Volver a intentar</a>";
-        echo "</div>";
+        header("Location: formulario_registro_d.php?error=1");
+        exit();
     }
     
 } else {

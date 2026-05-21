@@ -2,32 +2,51 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* Variables globales de color y diseño */
+/* Variables globales de color y diseño (Modo Claro) */
+/* 1. Variables Globales (Volvemos a tu tema oscuro original) */
+/* 1. Variables Globales (Modo Azul Noche / Cristal) */
 :root {
-    --card: rgba(16, 27, 46, 0.76);
-    --card-border: rgba(255,255,255,0.08);
-    --text: #ecf2ff;
+    --card: rgba(255, 255, 255, 0.04); /* Transparencia sutil en lugar de negro sólido */
+    --card-border: rgba(255, 255, 255, 0.08); /* Borde grisáceo delicado */
+    --text: #ffffff;
     --muted: #9eb0ce;
     --primary: #5b8cff;
     --primary-strong: #3b6fff;
     --accent: #18c29c;
-    --shadow: 0 24px 60px rgba(0,0,0,0.35);
-}
-
-* {
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
 html, body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', sans-serif;
+    /* Tu fondo oscuro original */
     background:
         radial-gradient(circle at top left, rgba(91, 140, 255, 0.22), transparent 24%),
         radial-gradient(circle at bottom right, rgba(24, 194, 156, 0.18), transparent 22%),
         linear-gradient(160deg, #05101d 0%, #081423 45%, #0c1728 100%);
     color: var(--text);
     min-height: 100%;
+}
+
+/* 2. Recuperar el efecto de las tarjetas */
+.glass, .panel, .form-perfil, .table-wrap {
+    background: var(--card) !important;
+    border: 1px solid var(--card-border);
+    color: var(--text) !important;
+    border-radius: 16px;
+    backdrop-filter: blur(12px); /* Esto hace la magia del difuminado de la 2da foto */
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--shadow);
+}
+
+/* 3. Textos claros dentro de las tarjetas */
+.glass h1, .glass h3, .panel-header h3, th, td {
+    color: #ffffff !important;
+}
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 a {

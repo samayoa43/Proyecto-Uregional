@@ -32,6 +32,18 @@ require_once __DIR__ . '/validar_sesion_admin.php';
             <p>Ingresa los datos del nuevo catedrático para darle acceso al portal académico.</p>
         </div>
 
+                <?php if (isset($_GET['exito'])): ?>
+        <div class="alert alert-success">
+        <span>✅</span>
+        <div><strong>¡Operación exitosa!</strong> Docente registrado con éxito.</div>
+        </div>
+        <?php elseif (isset($_GET['error'])): ?>
+        <div class="alert alert-danger">
+        <span>⚠️</span>
+        <div><strong>Error:</strong> Ocurrió un error al registrar el docente. Inténtalo de nuevo.</div>
+        </div>
+        <?php endif; ?>
+
         <!-- Envolvemos el formulario en nuestra tarjeta kpi-card y form-card -->
         <div class="kpi-card form-card">
             <form action="registrar_docentes.php" method="POST">

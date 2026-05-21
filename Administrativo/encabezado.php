@@ -46,6 +46,7 @@
         <a href="<?= $ruta_base ?>administrativo/reportes.php">Reportes</a>
         <a href="<?= $ruta_base ?>administrativo/gestion_tickets.php">Soporte</a>
         <a href="<?= $ruta_base ?>administrativo/crear_encuestas.php">Crear Encuesta</a>
+        <a href="<?= $ruta_base ?>administrativo/perfil.php">Mi Perfil</a>
     </div>
 </nav>
 </body>

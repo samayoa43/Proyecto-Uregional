@@ -41,6 +41,7 @@
         <a href="<?= $ruta_base ?>anuncios.php">Anuncios</a>
         <a href="<?= $ruta_base ?>tickets.php">Soporte</a>
         <a href="<?= $ruta_base ?>docentes/acciones_tareas.php">Tareas</a>
+        <a href="<?= $ruta_base ?>docentes/perfil.php">Mi Perfil</a>
     </div>
 </nav>
 </body>

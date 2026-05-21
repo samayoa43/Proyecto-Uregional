@@ -24,7 +24,7 @@ if (!is_array($pagos_historial)) {
     $pagos_historial = [];
 }
 
-$meses_ciclo = ['Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+$meses_ciclo = ['Inscripción S1', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Inscripción S2', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
 
 // SEGURO 2: Extraemos los datos con un ciclo manual, lo que evita por completo el error bool
 $meses_pagados = [];
@@ -107,6 +107,14 @@ $meses_pendientes = array_diff($meses_ciclo, $meses_pagados);
             <strong>¡Felicidades!</strong> Estás completamente solvente para todo el ciclo académico. No tienes cuotas pendientes.
         </div>
     <?php else: ?>
+        <?php if (date('j') <= 5): ?>
+    <div class="alert" style="background: rgba(24, 194, 156, 0.14); border: 1px solid #18c29c; color: #18c29c; margin-bottom: 1rem;">
+        ⭐ <strong>¡Aprovecha el Pronto Pago!</strong> Por pagar en los primeros 5 días del mes, tienes un <strong>10% de descuento</strong> en todas tus cuotas regulares.
+    </div>
+<?php endif; ?>
+<div class="alert" style="background: rgba(91, 140, 255, 0.1); border: 1px solid #5b8cff; color: #8cb0ff; margin-bottom: 1rem;">
+    💡 <strong>Tip:</strong> Si pagas un semestre completo (5 cuotas regulares juntas), también recibes el 10% de descuento sin importar la fecha.
+</div>
         <form id="form-pago" action="procesar_pagos.php" method="POST" onsubmit="this.querySelector('button[type=submit]').disabled = true;">
             
             <div class="form-group">
@@ -150,9 +158,9 @@ $meses_pendientes = array_diff($meses_ciclo, $meses_pagados);
         </form>
     <?php endif; ?>
 </article>
-
 <script>
-const costoPorMes = 450.00; // Cuota estándar de la universidad
+const costoBase = 400.00;
+const diaActual = <?php echo (int)date('j'); ?>; // PHP inyecta el día exacto del servidor
 const form = document.getElementById('form-pago');
 const grupoBoleta = document.getElementById('grupo-boleta');
 const inputBoleta = document.getElementById('numero_boleta');
@@ -160,7 +168,6 @@ const inputMonto = document.getElementById('monto_total');
 const btnSubmit = document.getElementById('btn-submit-pago');
 const checkboxes = document.querySelectorAll('.chk-mes');
 
-// Función que cambia el destino del formulario y los campos requeridos
 function cambiarMetodoPago(metodo) {
     if (metodo === 'boleta') {
         form.action = 'procesar_pagos.php';
@@ -185,14 +192,43 @@ function cambiarMetodoPago(metodo) {
         btnSubmit.style.background = 'linear-gradient(135deg, #003087, #009cde)';
     }
 }
-// Multiplicador automático del monto según los meses seleccionados
-checkboxes.forEach(cb => {
-    cb.addEventListener('change', () => {
-        const seleccionados = document.querySelectorAll('.chk-mes:checked').length;
-        inputMonto.value = (seleccionados * costoPorMes).toFixed(2);
+
+function calcularTotal() {
+    let total = 0;
+    let mesesRegulares = 0;
+    let aplicaDescuento = false;
+
+    // 1. Contar cuántas cuotas regulares se seleccionaron (excluyendo inscripciones)
+    checkboxes.forEach(cb => {
+        if (cb.checked && cb.value !== 'Inscripción S1' && cb.value !== 'Inscripción S2') {
+            mesesRegulares++;
+        }
     });
+
+    // 2. Validar si es acreedor al descuento del 10%
+    if (diaActual <= 5 || mesesRegulares >= 5) {
+        aplicaDescuento = true;
+    }
+
+    // 3. Sumar el dinero
+    checkboxes.forEach(cb => {
+        if (cb.checked) {
+            if (cb.value === 'Inscripción S1' || cb.value === 'Inscripción S2') {
+                total += costoBase; // Las inscripciones se cobran netas
+            } else {
+                total += aplicaDescuento ? (costoBase * 0.90) : costoBase; // Aplica 10% si cumple
+            }
+        }
+    });
+
+    inputMonto.value = total.toFixed(2);
+}
+
+checkboxes.forEach(cb => {
+    cb.addEventListener('change', calcularTotal);
 });
 </script>
+
             <article class="panel glass">
                 <div class="panel-header">
                     <h3>Historial de Movimientos</h3>

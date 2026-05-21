@@ -1,40 +1,41 @@
 <?php
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require 'conexion.php';
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    $correo = trim($_POST['correo']);
-    $password_ingresado = $_POST['contraseña']; 
+    $correo = $_POST['correo'];
+    $password_ingresada = $_POST['contraseña'];
 
-    try {
-        // 1. LA SUPER CONSULTA
-        // Extraemos 'u.contraseña' de tu tabla usuarios
+    try { // Aquí iniciamos el try que faltaba
+
+        // PASO 1: Buscar al usuario Y SU ROL cruzando las tablas (JOIN)
         $sql = "SELECT u.id_usuario, u.nombre, u.contraseña, u.estado, r.nombre_rol 
                 FROM usuarios u
                 INNER JOIN usuario_roles ur ON u.id_usuario = ur.id_usuario
                 INNER JOIN roles r ON ur.id_rol = r.id_rol
-                WHERE u.correo = ? AND u.estado = 1 
-                LIMIT 1";
+                WHERE u.correo = ?";
                 
-        $consulta = $conexion->prepare($sql);
-        $consulta->execute([$correo]);
-        $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute([$correo]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // 2. Verificamos credenciales comparando con la columna 'contraseña'
-        if ($usuario && $usuario['contraseña'] === $password_ingresado) {
+        // PASO 2: Verificar si el usuario existe y si la contraseña coincide con el hash
+        if ($usuario && password_verify($password_ingresada, $usuario['contraseña'])) {
             
-            // Llenamos la sesión general
+            if ($usuario['estado'] == 0) {
+                header("Location: login.php?error=cuenta_inactiva");
+                exit();
+            }
+            // Lógica normal de inicio de sesión (¡Aquí faltaba tu pase VIP!)
             $_SESSION['logged_in'] = true;
-            $_SESSION['id_usuario'] = $usuario['id_usuario'];
-            $_SESSION['nombre_usuario'] = $usuario['nombre'];
             $_SESSION['rol'] = $usuario['nombre_rol'];
             
-            // 3. EL PUENTE: Buscamos en tus tablas físicas usando el id_usuario
+            $_SESSION['id_usuario'] = $usuario['id_usuario'];
+            $_SESSION['nombre'] = $usuario['nombre'];
+            
+            // 3. EL PUENTE: Buscamos en tus tablas físicas usando el id_usuario y el rol
             if ($usuario['nombre_rol'] === 'docente') {
                 
                 $sql_doc = "SELECT id_docente FROM docentes WHERE id_usuario = ?";
@@ -69,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if($admin) {
                     $_SESSION['id_admin'] = $admin['id_personal'];
                 }
-                header("Location: administrativo/inicio_admin.php");
+                header("Location: Administrativo/inicio_admin.php"); // Asegúrate que la A mayúscula coincida con tu carpeta
                 
             } else {
                 header("Location: login.php?error=rol_invalido");
@@ -78,14 +79,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit(); 
             
         } else {
-            header("Location: login.php?error=credenciales");
+            // MODO DIAGNÓSTICO: Borrar esto después de arreglarlo
+            die("Correo encontrado: " . ($usuario ? 'SÍ' : 'NO') . " | Contraseña en BD: " . ($usuario['contraseña'] ?? 'Nada'));
+            // Si el correo no existe o la contraseña no hace match con el hash
+        //header("Location: login.php?error=credenciales");
             exit();
         }
         
     } catch(PDOException $e) {
         echo "Error en el sistema: " . $e->getMessage();
-    }
-    
+    } 
 } else {
     header("Location: login.php");
     exit();

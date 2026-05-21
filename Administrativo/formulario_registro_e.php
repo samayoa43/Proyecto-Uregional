@@ -42,6 +42,17 @@ try {
             <h2>Registrar Nuevo Estudiante</h2>
             <p>Ingresa los datos personales y asigna la carrera a la que aplicará el nuevo alumno.</p>
         </div>
+                <?php if (isset($_GET['exito'])): ?>
+        <div class="alert alert-success">
+        <span>✅</span>
+        <div><strong>¡Operación exitosa!</strong> Estudiante registrado con éxito.</div>
+        </div>
+        <?php elseif (isset($_GET['error'])): ?>
+        <div class="alert alert-danger">
+        <span>⚠️</span>
+        <div><strong>Error:</strong> Ocurrió un error al registrar el estudiante. Inténtalo de nuevo.</div>
+        </div>
+        <?php endif; ?>
 
         <div class="kpi-card form-card">
             <form action="registrar_estudiantes.php" method="POST">

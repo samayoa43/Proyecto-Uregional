@@ -10,7 +10,10 @@ if (isset($_GET['token']) && isset($_GET['meses'])) {
     $order_id = $_GET['token']; // PayPal envia el ID en el parámetro 'token'
     $meses_a_registrar = explode(',', $_GET['meses']);
     $id_estudiante = $_SESSION['id_estudiante'];
-    $monto_por_mes = 450.00; // Lo guardamos en su valor original en Quetzales
+    
+    // Cuota base actual
+    $monto_base = 400.00; 
+    $dia_actual = (int)date('j');
 
     $client_id = $_ENV['PAYPAL_CLIENT_ID'];
     $secret = $_ENV['PAYPAL_SECRET'];
@@ -37,7 +40,18 @@ if (isset($_GET['token']) && isset($_GET['meses'])) {
     $capture = json_decode($capture_result);
     curl_close($ch);
 
-    // 3. Validar y Guardar en la Base de Datos
+    // 3. Analizamos la transacción: Contar meses regulares
+    $meses_regulares = 0;
+    foreach ($meses_a_registrar as $mes) {
+        if ($mes !== 'Inscripción S1' && $mes !== 'Inscripción S2') {
+            $meses_regulares++;
+        }
+    }
+    
+    // 4. ¿Aplica la promoción del 10%?
+    $aplica_descuento = ($dia_actual <= 5 || $meses_regulares >= 5);
+
+    // 5. Validar y Guardar en la Base de Datos
     if (isset($capture->status) && $capture->status == 'COMPLETED') {
         try {
             $conexion->beginTransaction();
@@ -48,7 +62,14 @@ if (isset($_GET['token']) && isset($_GET['meses'])) {
             $transaccion_id = $capture->purchase_units[0]->payments->captures[0]->id;
 
             foreach ($meses_a_registrar as $mes) {
-                $stmt->execute([$id_estudiante, $mes, $monto_por_mes, $transaccion_id]);
+                $monto_final = $monto_base;
+                
+                // Aplicar el descuento del 10% si se cumplen las condiciones y no es inscripción
+                if ($mes !== 'Inscripción S1' && $mes !== 'Inscripción S2' && $aplica_descuento) {
+                    $monto_final = $monto_base * 0.90; // Rebaja a Q360.00
+                }
+
+                $stmt->execute([$id_estudiante, $mes, $monto_final, $transaccion_id]);
             }
 
             $conexion->commit();
@@ -56,6 +77,7 @@ if (isset($_GET['token']) && isset($_GET['meses'])) {
             exit();
         } catch (Exception $e) {
             $conexion->rollBack();
+            error_log("Error de BD en PayPal: " . $e->getMessage());
             header("Location: pagos.php?error=db_fail");
             exit();
         }

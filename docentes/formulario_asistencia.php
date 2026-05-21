@@ -28,6 +28,18 @@ require 'curso_docentes.php';
             <p>Seleccione el curso para registrar la asistencia de los estudiantes hoy.</p>
         </div>
 
+        
+        <?php if (isset($_GET['exito'])): ?>
+        <div class="alert alert-success">
+        <span>✅</span>
+        <div><strong>¡Operación exitosa!</strong> Asistencia guardada con éxito.</div>
+        </div>
+        <?php elseif (isset($_GET['error'])): ?>
+        <div class="alert alert-danger">
+        <span>⚠️</span>
+        <div><strong>Error:</strong> Ocurrió un error al guardar la asistencia. Inténtalo de nuevo.</div>
+        </div>
+        <?php endif; ?>
         <div class="kpi-card">
             <form action="" method="POST" style="display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap;">
                 <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 250px;">

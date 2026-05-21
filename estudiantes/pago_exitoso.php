@@ -12,10 +12,21 @@ if (isset($_GET['session_id']) && isset($_GET['meses'])) {
     $session_id = $_GET['session_id'];
     $meses_string = $_GET['meses'];
     $id_estudiante = $_SESSION['id_estudiante'];
-    $monto_por_mes = 450.00;
+    
+    // Cuota base actual
+    $monto_base = 400.00; 
+    $dia_actual = (int)date('j');
 
-    // Convertimos la cadena de la URL nuevamente en un arreglo almacenable
     $meses_a_registrar = explode(',', $meses_string);
+
+    $meses_regulares = 0;
+    foreach ($meses_a_registrar as $mes) {
+        if ($mes !== 'Inscripción S1' && $mes !== 'Inscripción S2') {
+            $meses_regulares++;
+        }
+    }
+
+    $aplica_descuento = ($dia_actual <= 5 || $meses_regulares >= 5);
 
     try {
         $session = \Stripe\Checkout\Session::retrieve($session_id);
@@ -29,13 +40,17 @@ if (isset($_GET['session_id']) && isset($_GET['meses'])) {
             $stmt = $conexion->prepare($sql);
 
             foreach ($meses_a_registrar as $mes) {
-                // Se guarda el ID de intención de pago de Stripe como el número identificador de boleta
-                $stmt->execute([$id_estudiante, $mes, $monto_por_mes, $session->payment_intent]);
+                $monto_final = $monto_base;
+                
+                // Si es un mes normal y ganó el descuento, le quitamos el 10%
+                if ($mes !== 'Inscripción S1' && $mes !== 'Inscripción S2' && $aplica_descuento) {
+                    $monto_final = $monto_base * 0.90; // Si la base es 400, guardará 360.
+                }
+                $stmt->execute([$id_estudiante, $mes, $monto_final, $session->payment_intent]);
             }
 
             $conexion->commit();
 
-            // Redirige de vuelta reflejando el mensaje de éxito estructurado en tu interfaz
             header("Location: pagos.php?exito=1");
             exit();
         }

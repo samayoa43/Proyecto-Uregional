@@ -46,6 +46,7 @@ $meses_pendientes = array_diff($meses_ciclo, $meses_pagados);
     <meta charset="UTF-8">
     <title>Estado de Cuenta</title>
     <link rel="stylesheet" href="estilos_estudiantes.css">
+    <link rel="icon" href="../img/img_02.png" type="image/png">
     <style>
         .panel-grid { display: grid; gap: 1.5rem; }
         .two-cols { grid-template-columns: 1fr 1fr; }
@@ -71,7 +72,7 @@ $meses_pendientes = array_diff($meses_ciclo, $meses_pagados);
             </div>
             <div class="hero-meta">
                 <div><strong>Total Abonado:</strong> Q<?php echo number_format($total_pagado, 2); ?></div>
-                <div><strong>Cuotas Pagadas:</strong> <?php echo count($meses_pagados); ?> de 10</div>
+                <div><strong>Cuotas Pagadas:</strong> <?php echo count($meses_pagados); ?> de 12</div>
             </div>
         </section>
 
@@ -146,7 +147,7 @@ $meses_pendientes = array_diff($meses_ciclo, $meses_pagados);
 
             <div class="form-group">
                 <label>Monto Total (Q)</label>
-                <input type="number" id="monto_total" name="monto" step="0.01" placeholder="0.00" required>
+                <input type="number" id="monto_total" name="monto" step="0.01" placeholder="0.00" required disabled>
             </div>
 
             <div class="form-group" id="grupo-boleta">

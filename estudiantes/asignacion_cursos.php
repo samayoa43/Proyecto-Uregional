@@ -60,6 +60,7 @@ if ($asignaciones_abiertas) {
         .btn-asignar { padding: 8px 16px; font-size: 0.9rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
         .btn-asignar:hover { opacity: 0.9; transform: scale(1.05); }
     </style>
+    <link rel="icon" href="../img/img_02.png" type="image/png">
 </head>
 <body>
 <div class="app-shell">

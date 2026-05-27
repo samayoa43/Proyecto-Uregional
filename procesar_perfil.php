@@ -12,11 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Definir la ruta de retorno según el rol
     if ($rol === 'estudiante') {
-        $ruta_retorno = 'estudiantes/mi_perfil.php';
+        $ruta_retorno = 'estudiantes/perfil.php';
     } elseif ($rol === 'docente') {
-        $ruta_retorno = 'docentes/mi_perfil.php';
+        $ruta_retorno = 'docentes/perfil.php';
     } elseif ($rol === 'admin') {
-        $ruta_retorno = 'Administrativo/mi_perfil.php';
+        $ruta_retorno = 'Administrativo/perfil.php';
     } else {
         die("Rol inválido en el sistema.");
     }

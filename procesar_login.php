@@ -79,10 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit(); 
             
         } else {
-            // MODO DIAGNÓSTICO: Borrar esto después de arreglarlo
-            die("Correo encontrado: " . ($usuario ? 'SÍ' : 'NO') . " | Contraseña en BD: " . ($usuario['contraseña'] ?? 'Nada'));
-            // Si el correo no existe o la contraseña no hace match con el hash
-        //header("Location: login.php?error=credenciales");
+        header("Location: login.php?error=credenciales");
             exit();
         }
         

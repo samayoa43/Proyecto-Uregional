@@ -17,6 +17,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     <meta charset="UTF-8">
     <title>Login - Plataforma Académica</title>
     <link rel="stylesheet" href="estilos.css?v=<?php echo time(); ?>">
+    <link rel="icon" href="img/img_02.png" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -28,6 +29,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     </script>
 
     <div class="caja-login">
+            <img src="img/img_02.png" alt="Logo Universidad" class="logo-navbar">
         <h2>Portal Universitario</h2>
         <p style="color: #666; margin-bottom: 25px;">Ingresa tus credenciales para acceder</p>
         

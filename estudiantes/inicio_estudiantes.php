@@ -19,6 +19,8 @@ require 'funciones_dash.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma Académica</title>
     <link rel="stylesheet" href="estilos_estudiantes.css"> 
+    <link rel="icon" href="../img/img_02.png" type="image/png">
+
 </head>
 <body>
 <div class="app-shell">

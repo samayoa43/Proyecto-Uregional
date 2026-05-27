@@ -151,6 +151,12 @@ body.dark-mode .btn-ingresar:hover {
     transform: none; /* Quitamos la animación de flotar, VS Code es más sobrio */
 }
 
+.logo-navbar {
+    max-width: 90px; 
+    width: 100%; display: block; 
+    margin: 0 auto 15px auto;
+}
+
 /* =========================================
    DISEÑO RESPONSIVO PARA EL LOGIN (MÓVILES)
 ========================================= */

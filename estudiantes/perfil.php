@@ -19,6 +19,7 @@ $perfil = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Mi Perfil - Plataforma Académica</title>
     <link rel="stylesheet" href="estilos_estudiantes.css">
+    <link rel="icon" href="../img/img_02.png" type="image/png">
 <style>
         .form-perfil { padding: 2rem; border-radius: 16px; max-width: 600px; margin: 0 auto; }
         .form-group { margin-bottom: 1.5rem; }

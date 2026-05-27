@@ -10,6 +10,7 @@ require 'verificar_solvencia.php';
     <meta charset="UTF-8">
     <title>Mis Calificaciones</title>
     <link rel="stylesheet" href="estilos_estudiantes.css"> 
+    <link rel="icon" href="../img/img_02.png" type="image/png">
 </head>
 <body>
 <div class="app-shell">

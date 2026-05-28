@@ -20,7 +20,7 @@ require 'funciones_dash.php';
     <title>Plataforma Académica</title>
     <link rel="stylesheet" href="estilos_estudiantes.css"> 
     <link rel="icon" href="../img/img_02.png" type="image/png">
-
+    <link rel="stylesheet" href="introjs.min.css">
 </head>
 <body>
 <div class="app-shell">
@@ -34,12 +34,23 @@ require 'funciones_dash.php';
                 <span class="hero-badge">Estudiante</span>
                 <h1>Bienvenido, <?php echo htmlspecialchars($estudiante['nombres']); ?></h1>
                 <p class="muted">Consulta tu progreso académico, tareas y pagos desde aquí.</p>
+
+                <button onclick="iniciarTour()" style="margin-top: 15px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s;"
+                    data-step="9" 
+                    data-title="¿Necesitas ayuda?" 
+                    data-intro="Si alguna vez olvidas para qué sirve cada sección, presiona este botón para volver a ver este recorrido."
+                    style="margin-top: auto; color: #80deea; font-weight: bold;">
+                    ▶ Repetir Tutorial
+                </button>
             </div>
             <div class="hero-meta">
             </div>
         </section>
 
- <section id="anuncios" class="panel glass" style="border-left: 5px solid #ffca28;">
+ <section id="anuncios" class="panel glass" style="border-left: 5px solid #ffca28;"
+ data-step="10" 
+         data-title="Tablón de Anuncios" 
+         data-intro="Aquí publicaremos comunicados oficiales, suspensiones de clases o avisos urgentes de tus catedráticos. Revísalo a diario.">
     <div class="panel-header">
         <h3 style="color: #ffffff; margin: 0;">📢 Tablón de Anuncios</h3>
     </div>
@@ -69,7 +80,10 @@ require 'funciones_dash.php';
         <?php endif; ?>
     </div>
 </section>
-<section id="cursos" class="panel glass">
+<section id="cursos" class="panel glass" 
+         data-step="11" 
+         data-title="Tus Cursos Asignados" 
+         data-intro="Aquí verás un resumen de tus cursos actuales, tus horarios y tu porcentaje de asistencia en cada uno.">
     <div class="panel-header"><h3>Cursos Asignados</h3></div>
     <div class="table-wrap">
         <table>
@@ -109,7 +123,10 @@ require 'funciones_dash.php';
         </table>
     </div>
 </section>
-        <section id="tareas" class="panel glass">
+        <section id="tareas" class="panel glass" 
+                 data-step="12" 
+                 data-title="Tareas Pendientes" 
+                 data-intro="Aquí encontrarás las tareas que tus catedráticos han asignado. Puedes subir tus archivos y agregar comentarios.">
             <div class="panel-header"><h3>Tareas Pendientes</h3></div>
             <div class="assignment-grid">
                 <?php foreach($tareas as $tarea): ?>
@@ -133,5 +150,7 @@ require 'funciones_dash.php';
         
     </main>
 </div>
+<script src="intro.min.js"></script>
+<script src="tutorial.js"></script>
 </body>
 </html>

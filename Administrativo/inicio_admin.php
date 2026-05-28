@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/validar_sesion_admin.php'; 
+$ruta_base = "../";
 
 require 'funciones_dash.php'; 
 ?>
@@ -11,11 +12,11 @@ require 'funciones_dash.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma Académica</title>
     <link rel="stylesheet" href="estilo_administrativo.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?= $ruta_base ?>introjs.min.css">
 </head>
 <body>
     
    <?php 
-   $ruta_base = "../";
    require 'encabezado.php'; ?>
 
     <main class="main-container">
@@ -92,5 +93,7 @@ require 'funciones_dash.php';
     <?php require 'footer.php'; ?>
 
 <script src="script_admin.js?v=<?php echo time(); ?>"></script>
+<script src="<?= $ruta_base ?>intro.min.js"></script>
+<script src="<?= $ruta_base ?>tutorial.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

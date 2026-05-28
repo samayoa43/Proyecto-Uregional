@@ -2,6 +2,8 @@
 require_once __DIR__ . '/validar_sesion_docentes.php';
 require '../conexion.php';
 
+$ruta_base = "../";
+
 $lista_anuncios = [];
 try {
    
@@ -30,6 +32,7 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio Docente - Plataforma Académica</title>
     <link rel="stylesheet" href="estilos_docente.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?= $ruta_base ?>introjs.min.css">
 </head>
 <body>
     
@@ -40,7 +43,6 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
     </script>
 
     <?php 
-        $ruta_base = "../"; 
     require 'encabezado.php'; ?>
 
     <main class="main-container">
@@ -52,7 +54,6 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
 
         <div class="kpi-card" style="border-top: 4px solid #f59e0b;">
             <h3 style="margin-top: 0; color: #f59e0b; margin-bottom: 20px;">Tablón de Anuncios</h3>
-            
             <?php if (count($lista_anuncios) > 0): ?>
                 <div class="lista-anuncios">
                     <?php foreach ($lista_anuncios as $anuncio): ?>
@@ -75,11 +76,9 @@ $nombre = $_SESSION['nombre_usuario'] ?? 'Administrador';
         </div>
 
     </main>
-
-    
     <?php require 'footer.php'; ?>
-
+    <script src="<?= $ruta_base ?>intro.min.js"></script>
+    <script src="<?= $ruta_base ?>tutorial.js?v=<?php echo time(); ?>"></script>
     <script src="<?= $ruta_base ?>docentes/script_docentes.js?v=<?php echo time(); ?>"></script>
-
 </body>
 </html>
